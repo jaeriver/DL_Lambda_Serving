@@ -11,14 +11,18 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 
 ## Frameworks
 - Tensorflow (v2.7.0)
-- Tensorflow Lite
-- Pytorch
+- Tensorflow Lite (preparing)
+- Pytorch (preparing)
 - ONNX
 - TVM (v0.8)
 
 ## Workloads
 - Image Classification with CNN models
-- NLP (Neuro-Linguistic Programming) with Bert, Transformer
+- NLP (Neuro-Linguistic Programming) with Bert, Transformer (preparing)
+
+## To Do
+- All NLP scinario
+- Pytorch, Tensorflow Lite, TF(in ARM)
 
 ## Future Work
 - Use AWS SAM to build Serverless System
