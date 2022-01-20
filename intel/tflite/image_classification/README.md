@@ -4,7 +4,7 @@ DL inference serving with TFLite in AWS Lambda
 
 ### Push docker image to AWS ECR
 ```
-export IMAGE_NAME = "tflite_lambda_container"
+export IMAGE_NAME="tflite_lambda_container"
 
 docker build -t $IMAGE_NAME . --no-cache
 
