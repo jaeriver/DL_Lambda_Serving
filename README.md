@@ -1,5 +1,5 @@
 # DL_Lambda_Serving
-Deep Learning Serving with variety Frameworks in AWS Lambda
+Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 
 ## Environments
 - python3.8
