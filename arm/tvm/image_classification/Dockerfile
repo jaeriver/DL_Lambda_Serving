@@ -10,7 +10,7 @@ RUN git clone https://github.com/jaeriver/DL_Lambda_Serving
 WORKDIR DL_Lambda_Serving/arm/tvm
 
 # ENV PYTHONPATH "/var/lang/lib/python3.8/site-packages:/var/task"
-ENV TVM_HOME=/var/task/DL_Lambda_Serving/arm/tvm
+ENV TVM_HOME=/var/task/DL_Lambda_Serving/arm/tvm/image_classification
 ENV PATH=$PATH:$TVM_HOME/bin
 ENV PYTHONPATH=$TVM_HOME/python:${PYTHONPATH}
 ENV PATH=$TVM_HOME/python:$PATH
