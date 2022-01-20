@@ -16,5 +16,9 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 - ONNX
 - TVM (v0.8)
 
+## Workloads
+- Image Classification with CNN models
+- NLP (Neuro-Linguistic Programming) with Bert, Transformer
+
 ## Future Work
 - Use AWS SAM to build Serverless System
