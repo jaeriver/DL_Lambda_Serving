@@ -1,6 +1,6 @@
 # Onnx_Serving
 DL inference serving with ONNX compiler in AWS Lambda
-- Lambda Hardware Type:  X86, ARM64
+- Lambda Hardware Type: ARM64 (AWS Graviton2)
 
 ### Push docker image to AWS ECR
 ```
