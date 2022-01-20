@@ -21,7 +21,7 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 - NLP (Neuro-Linguistic Programming) with Bert, Transformer (preparing)
 
 ## To Do
-- All NLP scinario
+- All NLP scenario
 - Pytorch, Tensorflow Lite, TF(in ARM)
 
 ## Future Work
