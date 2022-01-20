@@ -2,4 +2,4 @@ numpy
 boto3
 pytest
 python-dotenv
-https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp38-cp38-linux_x86_64.whl
+https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp38-cp38-linux_aarch64.whl
