@@ -13,7 +13,7 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 - Tensorflow (v2.7.0)
 - Tensorflow Lite (preparing)
 - Pytorch (preparing)
-- ONNX
+- ONNX (use onnxruntime v1.10.0)
 - TVM (v0.8)
 
 ## Workloads
