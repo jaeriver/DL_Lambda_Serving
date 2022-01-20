@@ -18,7 +18,7 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 
 ## Workloads
 - Image Classification with CNN models
-- NLP (Neuro-Linguistic Programming) with Bert, Transformer (preparing)
+- NLP (Natural Language Processing) with Bert, Transformer (preparing)
 
 ## To Do
 - All NLP scenario
