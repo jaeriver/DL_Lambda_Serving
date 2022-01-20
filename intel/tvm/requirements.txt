@@ -1,0 +1,12 @@
+numpy
+decorator
+attrs
+tornado
+psutil
+xgboost
+cloudpickle
+boto3
+pytest
+python-dotenv
+onnx
+protobuf

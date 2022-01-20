@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "jg-tfserving-mobilenetv2"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-d3tb43uksuc4"
+s3_prefix = "jg-tfserving-mobilenetv2"
+region = "us-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = ["TensorFlowInferenceFunction=741926482963.dkr.ecr.us-west-2.amazonaws.com/jgtfservingmobilenetv2201ea088/tensorflowinferencefunction402a36b7repo"]
