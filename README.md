@@ -3,7 +3,7 @@ Deep Learning Serving with variety Frameworks in AWS Lambda
 
 ## Environments
 - python3.8
-- Use Docker Container Image for build AWS Lambda
+- Use Docker Container Image for build AWS Lambda Container
 
 ## Hardware Types
 - ARM64 (ARM Architecture based on AWS Graviton2)
