@@ -3,4 +3,5 @@ boto3
 pytest
 python-dotenv
 wheel
-https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp38-cp38-linux_x86_64.whl
+--extra-index-url https://google-coral.github.io/py-repo/
+tflite_runtime
