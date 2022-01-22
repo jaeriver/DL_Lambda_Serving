@@ -1,7 +1,6 @@
 FROM amazon/aws-lambda-python:3.8
 
 # install essential library
-RUN yum update && yum clean all
 RUN yum -y install libtinfo-dev zlib1g-dev build-essential git
 
 # git clone
