@@ -11,7 +11,7 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 
 ## Frameworks
 - Tensorflow (v2.7.0)
-- Tensorflow Lite (use tflite runtime)
+- Tensorflow Lite (use tflite runtime v2.4.0)
 - Pytorch (preparing)
 - ONNX (use onnxruntime v1.10.0)
 - TVM (v0.8)
