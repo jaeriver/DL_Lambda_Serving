@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lambda/python:3.8-arm64
 
 # install essential library
-RUN yum update && yum clean all
+RUN yum update
 RUN yum -y install python3-dev python3-setuptools libtinfo-dev zlib1g-dev build-essential git
 
 # git clone
