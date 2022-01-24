@@ -3,5 +3,4 @@ boto3
 pytest
 python-dotenv
 wheel
---extra-index-url https://google-coral.github.io/py-repo/
-tflite_runtime
+tflite-runtime
