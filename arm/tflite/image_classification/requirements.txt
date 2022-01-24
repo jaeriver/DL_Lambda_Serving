@@ -3,5 +3,5 @@ awscli
 boto3
 pytest
 python-dotenv
-wheel
-tflite-runtime
+--extra-index-url https://google-coral.github.io/py-repo/
+tflite_runtime
