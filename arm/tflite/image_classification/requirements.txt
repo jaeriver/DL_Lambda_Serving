@@ -1,4 +1,5 @@
 numpy
+docevents
 boto3
 pytest
 python-dotenv
