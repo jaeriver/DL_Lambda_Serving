@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt
 
 RUN cp lambda_function.py ${LAMBDA_TASK_ROOT}
 
-CMD ["lambda_function.lambda_handler"
+CMD ["lambda_function.lambda_handler"]
