@@ -1,4 +1,5 @@
 import time
+import boto3
 from transformers import BertTokenizer, TFBertModel
 
 def get_model(model_name, bucket_name):
