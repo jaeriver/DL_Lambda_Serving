@@ -20,7 +20,7 @@ def lambda_handler(event, context):
     batch_size = event['batch_size']
     model_name = event['model_name']
     count = event['count']
-    arch_type = 'intel'
+    arch_type = 'arm'
     
     model_path = get_model(model_name, bucket_name)
     
