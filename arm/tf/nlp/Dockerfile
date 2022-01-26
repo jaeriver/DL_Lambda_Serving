@@ -4,7 +4,6 @@ FROM public.ecr.aws/lambda/python:3.8-arm64
 RUN yum -y install libtinfo-dev zlib1g-dev build-essential git
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
     | CARGO_HOME=/cargo RUSTUP_HOME=/rustup sh -s -- -y --profile minimal
-RUN source /ec2-user/.cargo/env
 
 RUN git clone https://github.com/jaeriver/DL_Lambda_Serving.git
 WORKDIR DL_Lambda_Serving/intel/tf/nlp
