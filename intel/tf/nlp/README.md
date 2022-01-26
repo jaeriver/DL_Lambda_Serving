@@ -1,5 +1,5 @@
 # TF_Serving
-DL inference serving with TFLite in AWS Lambda
+DL inference serving with TF in AWS Lambda
 - Lambda Hardware Type:  X86 (Intel AMD)
 
 ### Push docker image to AWS ECR
