@@ -28,8 +28,8 @@ def lambda_handler(event, context):
     
     model_path = get_model(model_name, bucket_name)
     
-    tokenizer = BertTokenizer.from_pretrained(model_path, cache_dir=None, local_files_only=True)
-    model = TFBertModel.from_pretrained(model_path, cache_dir=None, local_files_only=True)
+    tokenizer = BertTokenizer.from_pretrained(model_path, cache_dir=model_path, local_files_only=True)
+    model = TFBertModel.from_pretrained(model_path, cache_dir=model_path, local_files_only=True)
     sentence = "This is Fake Dataset for testing NLP Tokenizing"
     test_batch = [sentence for i in range(batch_size)]
     encoded_input = tokenizer(test_batch, 
