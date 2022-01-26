@@ -1,10 +1,10 @@
 # TF_Serving
-DL inference serving with TFLite in AWS Lambda
-- Lambda Hardware Type:  X86 (Intel AMD)
+DL inference serving with TF in AWS Lambda
+- Lambda Hardware Type:  ARM (AWS Graviton2)
 
 ### Push docker image to AWS ECR
 ```
-export IMAGE_NAME="tf_nlp_lambda_container"
+export IMAGE_NAME="tf_nlp_lambda_container_arm"
 
 docker build -t $IMAGE_NAME . --no-cache
 
