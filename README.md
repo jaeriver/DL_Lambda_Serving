@@ -13,7 +13,7 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 - Tensorflow (v2.7.0)
 - Tensorflow Lite (use tflite runtime v2.4.0)
 - Pytorch (preparing)
-- ONNX (use onnxruntime v1.10.0)
+- ONNX (use onnxruntime v1.10.0) [intel-imageclassification](https://github.com/jaeriver/DL_Lambda_Serving/tree/main/intel/onnx/image_classification) [arm-imageclassification](https://github.com/jaeriver/DL_Lambda_Serving/tree/main/arm/onnx/image_classification)
 - TVM (v0.8)
 
 ## Workloads
