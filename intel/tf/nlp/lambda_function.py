@@ -7,7 +7,7 @@ def get_model(model_name, bucket_name):
     s3_bucket = s3_resource.Bucket(bucket_name)
     
     prefix = 'tf/' + model_name
-    for object in bucket.objects.filter(Prefix = 'dirname'):
+    for object in bucket.objects.filter(Prefix = prefix):
         if object.key == prefix:
             os.makedirs(os.path.dirname('/tmp/' + object.key), exist_ok=True)
             continue;
