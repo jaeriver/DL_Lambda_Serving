@@ -1,4 +1,4 @@
-export IMAGE_NAME="tf_nlp_lambda_container"
+export IMAGE_NAME="tf_nlp_lambda_container_arm"
 
 docker build -t $IMAGE_NAME . --no-cache
 
