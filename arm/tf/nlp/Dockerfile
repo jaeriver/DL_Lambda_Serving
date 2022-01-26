@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/python:3.8
+FROM public.ecr.aws/lambda/python:3.8-arm64
 
 # install essential library
 RUN yum -y install libtinfo-dev zlib1g-dev build-essential git
