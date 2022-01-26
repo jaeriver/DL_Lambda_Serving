@@ -9,8 +9,10 @@ def get_model(model_name, bucket_name):
     prefix = 'tf/' + model_name
     for object in bucket.objects.filter(Prefix = prefix):
         print(object.key)
+        print('test2')
         if object.key == prefix:
             os.makedirs(os.path.dirname('/tmp/' + object.key), exist_ok=True)
+            print('test')
             continue;
         bucket.download_file(object.key, '/tmp/' + object.key)
     
