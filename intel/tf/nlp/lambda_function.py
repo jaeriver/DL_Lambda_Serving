@@ -17,7 +17,7 @@ def get_model(model_name, bucket_name):
             continue;
         bucket.download_file(object.key, '/tmp/' + object.key)
     
-    return '/tmp/' + model_name
+    return 'tmp/' + model_name
 
 def lambda_handler(event, context):
     bucket_name = event['bucket_name']
@@ -28,7 +28,7 @@ def lambda_handler(event, context):
     
     model_path = get_model(model_name, bucket_name)
     
-    tokenizer = BertTokenizer.from_pretrained(model_path)
+    tokenizer = BertTokenizer.from_pretrained(model_path, local_files_only=True)
     model = TFBertModel.from_pretrained(model_path)
     sentence = "This is Fake Dataset for testing NLP Tokenizing"
     test_batch = [sentence for i in range(batch_size)]
