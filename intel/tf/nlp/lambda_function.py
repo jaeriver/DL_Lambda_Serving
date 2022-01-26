@@ -4,7 +4,7 @@ from transformers import BertTokenizer, TFBertModel
 
 def get_model(model_name, bucket_name):
     s3_resource = boto3.resource('s3')
-    s3_bucket = s3_resource.Bucket(bucket_name)
+    bucket = s3_resource.Bucket(bucket_name)
     
     prefix = 'tf/' + model_name
     for object in bucket.objects.filter(Prefix = prefix):
