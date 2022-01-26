@@ -3,8 +3,15 @@ import boto3
 from transformers import BertTokenizer, TFBertModel
 
 def get_model(model_name, bucket_name):
-    s3_client = boto3.client('s3')    
-    s3_client.download_file(bucket_name, 'tf/'+ model_name, '/tmp/'+ model_name)
+    s3_resource = boto3.resource('s3')
+    s3_bucket = s3_resource.Bucket(bucket_name)
+    
+    prefix = 'tf/' + model_name
+    for object in bucket.objects.filter(Prefix = 'dirname'):
+        if object.key == prefix:
+            os.makedirs(os.path.dirname('/tmp/' + object.key), exist_ok=True)
+            continue;
+        bucket.download_file(object.key, '/tmp/' + object.key)
     
     return '/tmp/' + model_name
 
