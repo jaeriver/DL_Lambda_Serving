@@ -17,7 +17,7 @@ def get_model(model_name, bucket_name):
             continue;
         bucket.download_file(object.key, '/tmp/' + object.key)
     
-    return 'tmp/' + model_name
+    return '/tmp/' + model_name + '/'
 
 def lambda_handler(event, context):
     bucket_name = event['bucket_name']
