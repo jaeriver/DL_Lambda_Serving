@@ -7,7 +7,7 @@ def get_model(model_name, bucket_name):
     s3_resource = boto3.resource('s3')
     bucket = s3_resource.Bucket(bucket_name)
     
-    prefix = 'tf/' + model_name
+    prefix = 'tf/' + model_name +'/'
     for object in bucket.objects.filter(Prefix = prefix):
         print(object.key)
         print('test2')
@@ -28,8 +28,8 @@ def lambda_handler(event, context):
     
     model_path = get_model(model_name, bucket_name)
     
-    tokenizer = BertTokenizer.from_pretrained(model_path)
-    model = TFBertModel.from_pretrained(model_path)
+    tokenizer = BertTokenizer.from_pretrained(model_path, cache_dir=None, local_files_only=True)
+    model = TFBertModel.from_pretrained(model_path, cache_dir=None, local_files_only=True)
     sentence = "This is Fake Dataset for testing NLP Tokenizing"
     test_batch = [sentence for i in range(batch_size)]
     encoded_input = tokenizer(test_batch, 
