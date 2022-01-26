@@ -5,6 +5,7 @@ RUN yum -y install libtinfo-dev zlib1g-dev build-essential git
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
     | sh -s -- -y --profile minimal
 RUN source $HOME/.cargo/env
+RUN export PATH="$HOME/.cargo/bin:$PATH
 
 RUN git clone https://github.com/jaeriver/DL_Lambda_Serving.git
 WORKDIR DL_Lambda_Serving/intel/tf/nlp
