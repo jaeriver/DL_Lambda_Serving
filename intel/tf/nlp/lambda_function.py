@@ -1,5 +1,6 @@
 import time
 import boto3
+import os
 from transformers import BertTokenizer, TFBertModel
 
 def get_model(model_name, bucket_name):
@@ -14,8 +15,7 @@ def get_model(model_name, bucket_name):
             os.makedirs(os.path.dirname('/tmp/' + object.key), exist_ok=True)
             print('test')
             continue;
-        else:
-            bucket.download_file(object.key, '/tmp/' + object.key)
+        bucket.download_file(object.key, '/tmp/' + object.key)
     
     return '/tmp/' + model_name
 
