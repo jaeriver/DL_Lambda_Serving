@@ -1,5 +1,6 @@
 import time
 import boto3
+import numpy as np
 import os
 from transformers import BertTokenizer, TFBertModel
 
