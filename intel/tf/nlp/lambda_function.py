@@ -14,7 +14,8 @@ def get_model(model_name, bucket_name):
             os.makedirs(os.path.dirname('/tmp/' + object.key), exist_ok=True)
             print('test')
             continue;
-        bucket.download_file(object.key, '/tmp/' + object.key)
+        else:
+            bucket.download_file(object.key, '/tmp/' + object.key)
     
     return '/tmp/' + model_name
 
