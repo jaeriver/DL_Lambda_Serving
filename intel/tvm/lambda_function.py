@@ -10,6 +10,11 @@ import boto3
 print('import time: ', time.time() - import_start_time)
 
 image_size = 224
+channel = 3
+image_classification_shape_type = {
+    "mxnet" : (channel, image_size, image_size),
+    "tf" : (image_size, image_size, channel)
+}
 
 def get_model(model_name, bucket_name):
     s3_client = boto3.client('s3')
@@ -17,9 +22,9 @@ def get_model(model_name, bucket_name):
     return '/tmp/' + model_name
 
 
-def make_dataset(batch_size, workload):
+def make_dataset(batch_size, workload, framework):
     if workload == 'image_classification":
-        image_shape = (image_size, image_size, 3)
+        image_shape = image_classification_shape_type[framework]
         data_shape = (batch_size,) + image_shape
 
         data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
@@ -50,9 +55,9 @@ def lambda_handler(event, context):
     frame_work = event['frame_work']
     model_name = event['model_name']
     model_path = frame_work + arch_type + event['model_name']
+    workload = event['workload']
     is_build = event['is_build']
     count = event['count']
-    workload = event['workload']
     
     if arch_type == 'arm':
         target = tvm.target.arm_cpu()
@@ -64,7 +69,7 @@ def lambda_handler(event, context):
     module = runtime.GraphModule(loaded_lib["default"](ctx))
     
     if workload == "image_classification":
-        data, image_shape = make_dataset(batch_size, workload)
+        data, image_shape = make_dataset(batch_size, workload, framework)
         input_name = "data"
         module.set_input(input_name, data)
     #case bert
