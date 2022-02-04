@@ -16,9 +16,9 @@ image_classification_shape_type = {
     "tf" : (image_size, image_size, channel)
 }
 
-def get_model(model_name, bucket_name):
-    s3_client = boto3.client('s3')
-    s3_client.download_file(bucket_name, model_name, '/tmp/'+ model_name)
+def get_model(bucket_name, model_path, model_name):
+    s3_client = boto3.client('s3')    
+    s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
     return '/tmp/' + model_name
 
 
@@ -66,7 +66,7 @@ def lambda_handler(event, context):
         target = arch_type
     ctx = tvm.cpu()
     
-    loaded_lib = tvm.runtime.load_module(get_model(model_path, bucket_name))
+    loaded_lib = tvm.runtime.load_module(get_model(bucket_name, model_path, model_name))
     module = runtime.GraphModule(loaded_lib["default"](ctx))
     
     if workload == "image_classification":
