@@ -53,7 +53,7 @@ def lambda_handler(event, context):
     is_build = event['is_build']
     count = event['count']
     
-    session = ort.InferenceSession(get_model(model_path))
+    session = ort.InferenceSession(get_model(model_path, bucket_name))
     session.get_modelmeta()
     inname = [input.name for input in session.get_inputs()]
     outname = [output.name for output in session.get_outputs()]
