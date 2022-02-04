@@ -12,9 +12,9 @@ image_classification_shape_type = {
 }
 
 
-def get_model(model_name, bucket_name):
+def get_model(bucket_name, model_path, model_name):
     s3_client = boto3.client('s3')    
-    s3_client.download_file(bucket_name, model_name, '/tmp/'+ model_name)
+    s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
     return '/tmp/' + model_name
 
 def make_dataset(batch_size,size):
@@ -53,7 +53,7 @@ def lambda_handler(event, context):
     is_build = event['is_build']
     count = event['count']
     
-    session = ort.InferenceSession(get_model(model_path, bucket_name))
+    session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
     session.get_modelmeta()
     inname = [input.name for input in session.get_inputs()]
     outname = [output.name for output in session.get_outputs()]
