@@ -36,7 +36,7 @@ def make_dataset(batch_size, workload, framework):
         dtype = "float32"
         inputs = np.random.randint(0, 2000, size=(batch_size, seq_length)).astype(dtype)
         token_types = np.random.uniform(size=(batch_size, seq_length)).astype(dtype)
-        valid_length = np.asarray([seq_length] * batch).astype(dtype)
+        valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
         
         return inputs, token_types, valid_length
 
