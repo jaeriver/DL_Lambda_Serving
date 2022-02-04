@@ -25,6 +25,6 @@ git clone -b v0.8 --recursive https://github.com/apache/tvm tvm
   "framework" : "mxnet",
   "model_name": "mobilenet_v2",
   "workload" : "bert",
-  "count": 5,
+  "count": 5
 }
 ```
