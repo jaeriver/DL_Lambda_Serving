@@ -66,7 +66,7 @@ def lambda_handler(event, context):
         target = arch_type
     ctx = tvm.cpu()
     
-    loaded_lib = tvm.runtime.load_module(get_model(model_path))
+    loaded_lib = tvm.runtime.load_module(get_model(model_path, bucket_name))
     module = runtime.GraphModule(loaded_lib["default"](ctx))
     
     if workload == "image_classification":
