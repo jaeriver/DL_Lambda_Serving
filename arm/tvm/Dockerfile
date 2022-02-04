@@ -1,4 +1,4 @@
-FROM amazon/aws-lambda-python:3.8
+FROM public.ecr.aws/lambda/python:3.8-arm64
 
 # install essential library
 RUN yum update && yum install -y wget && yum clean all
@@ -7,10 +7,10 @@ RUN yum -y install python3-dev python3-setuptools libtinfo-dev zlib1g-dev build-
 
 # git clone
 RUN git clone https://github.com/jaeriver/DL_Lambda_Serving
-WORKDIR DL_Lambda_Serving/intel/tvm
+WORKDIR DL_Lambda_Serving/arm/tvm
 
 # ENV PYTHONPATH "/var/lang/lib/python3.8/site-packages:/var/task"
-ENV TVM_HOME=/var/task/DL_Lambda_Serving/intel/tvm/tvm
+ENV TVM_HOME=/var/task/DL_Lambda_Serving/arm/tvm/tvm
 ENV PATH=$PATH:$TVM_HOME/bin
 ENV PYTHONPATH=$TVM_HOME/python:${PYTHONPATH}
 ENV PATH=$TVM_HOME/python:$PATH
