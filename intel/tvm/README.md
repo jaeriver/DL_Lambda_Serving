@@ -22,7 +22,7 @@ git clone -b v0.8 --recursive https://github.com/apache/tvm tvm
   "bucket_name": "your s3 bucket name",
   "batch_size": 1,
   "arch_type": "intel",
-  "framework" : "mxnet"
+  "framework" : "mxnet",
   "model_name": "mobilenet_v2",
   "workload" : "bert",
   "count": 5,
