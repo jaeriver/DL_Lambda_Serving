@@ -52,10 +52,10 @@ def lambda_handler(event, context):
     bucket_name = event['bucket_name']
     batch_size = event['batch_size']
     arch_type = event['arch_type']
-    frame_work = event['frame_work']
+    framework = event['framework']
     model_name = event['model_name']
     compiler = 'tvm'
-    model_path = f'{frame_work}/{compiler}/{arch_type}/{model_name}'
+    model_path = f'{framework}/{compiler}/{arch_type}/{model_name}'
     workload = event['workload']
     is_build = event['is_build']
     count = event['count']
@@ -75,7 +75,7 @@ def lambda_handler(event, context):
         module.set_input(input_name, data)
     #case bert
     else:
-        data, token_types, valid_length = make_dataset(batch_size, workload)
+        data, token_types, valid_length = make_dataset(batch_size, workload, framework)
         module.set_input(data0=data, data1=token_types, data2=valid_length)
     
     
