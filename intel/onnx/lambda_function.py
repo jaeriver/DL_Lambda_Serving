@@ -17,7 +17,7 @@ def get_model(bucket_name, model_path, model_name):
     s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
     return '/tmp/' + model_name
 
-def make_dataset(batch_size,size):
+def make_dataset(batch_size, workload):
     if workload == "image_classification":
         image_shape = image_classification_shape_type[framework]
         data_shape = (batch_size,) + image_shape
