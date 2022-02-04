@@ -23,7 +23,7 @@ def get_model(model_name, bucket_name):
 
 
 def make_dataset(batch_size, workload, framework):
-    if workload == 'image_classification":
+    if workload == "image_classification":
         image_shape = image_classification_shape_type[framework]
         data_shape = (batch_size,) + image_shape
 
@@ -38,12 +38,12 @@ def make_dataset(batch_size, workload, framework):
             "data1": (batch_size, seq_length),
             "data2": (batch_size,),
         }
-        input_shape = (shape_dict["data0"], shape_dict["data1"], shape_dict["data2"])
-        data = np.random.uniform(size=input_shape[0])
-        token_types = np.random.uniform(size=input_shape[1])
-        valid_length = np.array([seq_length] * batch_size)
-        
-        return data, token_types, valid_length
+        dtype = "float32"
+        inputs = np.random.randint(0, 2000, size=(batch, seq_length)).astype(dtype)
+        token_types = np.random.uniform(size=(batch, seq_length)).astype(dtype)
+        valid_length = np.asarray([seq_length] * batch).astype(dtype)
+
+        return inputs, token_types, valid_length
 
 load_model = time.time()
 
