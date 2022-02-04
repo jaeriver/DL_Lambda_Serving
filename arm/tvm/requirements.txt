@@ -3,11 +3,10 @@ decorator
 attrs
 tornado
 psutil
+xgboost
 cloudpickle
 boto3
 pytest
 python-dotenv
-cython
-protobuf
 onnx
-scipy
+protobuf
