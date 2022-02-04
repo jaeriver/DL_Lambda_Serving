@@ -45,10 +45,10 @@ def lambda_handler(event, context):
     bucket_name = event['bucket_name']
     batch_size = event['batch_size']
     arch_type = event['arch_type']
-    frame_work = event['frame_work']
+    framework = event['framework']
     model_name = event['model_name']
     compiler = 'onnx'
-    model_path = f'{frame_work}/{compiler}/{model_name}'
+    model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
     is_build = event['is_build']
     count = event['count']
