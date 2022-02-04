@@ -14,7 +14,7 @@ image_classification_shape_type = {
 
 def get_model(model_name, bucket_name):
     s3_client = boto3.client('s3')    
-    s3_client.download_file(bucket_name, 'onnx/'+ model_name, '/tmp/'+ model_name)
+    s3_client.download_file(bucket_name, model_name, '/tmp/'+ model_name)
     return '/tmp/' + model_name
 
 def make_dataset(batch_size,size):
