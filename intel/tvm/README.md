@@ -19,12 +19,12 @@ git clone -b v0.8 --recursive https://github.com/apache/tvm tvm
 ### Lambda Parameters
 ```
 {
-  "batch_size": 1,
-  "count": 5,
   "bucket_name": "your s3 bucket name",
-  "model_name": "mobilenet_v2",
+  "batch_size": 1,
   "arch_type": "intel",
-  "workload" : "bert",
   "framework" : "mxnet"
+  "model_name": "mobilenet_v2",
+  "workload" : "bert",
+  "count": 5,
 }
 ```
