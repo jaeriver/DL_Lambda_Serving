@@ -90,6 +90,6 @@ event = {
   "model_name": "bert_base.tar",
   "workload": "bert",
   "count": 5,
-  "is_build": false
+  "is_build": "false"
 }
 lambda_handler(event,"")
