@@ -30,7 +30,7 @@ docker push $ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/$IMAGE_NAME
 Now(2022/02/07) some issue in onnxruntime package with AWS Graviton2 Hardware.
 
 So, replaced requirements.txt
-onnxruntime -> https://test.pypi.org/simple/ ort-nightly 
+`onnxruntime -> https://test.pypi.org/simple/ ort-nightly `
 
 reference:
 - https://github.com/microsoft/onnxruntime/issues/10038
