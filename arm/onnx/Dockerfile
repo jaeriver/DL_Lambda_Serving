@@ -6,7 +6,7 @@ RUN pip install --upgrade pip
 # git clone
 RUN git clone https://github.com/jaeriver/DL_Lambda_Serving.git
 WORKDIR DL_Lambda_Serving/arm/onnx
-RUN pip -i https://test.pypi.org/simple/ ort-nightly
+RUN pip install -i https://test.pypi.org/simple/ ort-nightly
 RUN pip install -r requirements.txt
 
 RUN cp lambda_function.py ${LAMBDA_TASK_ROOT}
