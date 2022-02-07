@@ -2,5 +2,4 @@ numpy
 boto3
 pytest
 python-dotenv
-onnxruntime
-onnx
+https://test.pypi.org/simple/ ort-nightly
