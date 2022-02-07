@@ -87,8 +87,8 @@ event = {
   "batch_size": 1,
   "arch_type": "intel",
   "framework": "mxnet",
-  "model_name": "bert_base.tar",
-  "workload": "bert",
+  "model_name": "bert_base.onnx",
+  "workload": "nlp",
   "count": 5,
   "is_build": "false"
 }
