@@ -5,8 +5,8 @@ RUN yum -y install python3-dev python3-setuptools libtinfo-dev zlib1g-dev build-
 # git clone
 RUN git clone https://github.com/jaeriver/DL_Lambda_Serving.git
 WORKDIR DL_Lambda_Serving/arm/onnx
-RUN pip install -i https://test.pypi.org/simple/ ort-nightly
 RUN pip install -r requirements.txt
+RUN pip install -i https://test.pypi.org/simple/ ort-nightly
 
 RUN cp lambda_function.py ${LAMBDA_TASK_ROOT}
 
