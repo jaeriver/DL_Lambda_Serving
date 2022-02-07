@@ -52,8 +52,11 @@ def lambda_handler(event, context):
     workload = event['workload']
     is_build = event['is_build']
     count = event['count']
+    s3_client = boto3.client('s3')    
+    onnx_file = s3_client.get_object(Bucket=bucket_name, Key=model_path)
     
-    session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
+#     session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
+    session = ort.InferenceSession(onnx_file)
     session.get_modelmeta()
     inname = [input.name for input in session.get_inputs()]
     outname = [output.name for output in session.get_outputs()]
