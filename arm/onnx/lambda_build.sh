@@ -1,9 +1,3 @@
-# Onnx_Serving
-DL inference serving with ONNX compiler in AWS Lambda
-- Lambda Hardware Type: ARM64 (AWS Graviton2)
-
-### Push docker image to AWS ECR
-```
 docker build -t onnx_lambda_container . --no-cache
 
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
