@@ -13,11 +13,6 @@ aws ecr get-login-password --region us-west-2 | docker login --username AWS --pa
 docker push $ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/$IMAGE_NAME
 ```
 
-### Git clone origin TVM repo
-```
-git clone -b v0.8 --recursive https://github.com/apache/tvm tvm
-```
-
 ### Lambda Parameters
 ```
 {
@@ -30,3 +25,10 @@ git clone -b v0.8 --recursive https://github.com/apache/tvm tvm
   "count": 5
 }
 ```
+
+### Remark
+Now(2022/02/07) some issue in onnxruntime package with AWS Graviton2 Hardware
+So, replaced requirements.txt
+onnxruntime -> https://test.pypi.org/simple/ ort-nightly 
+reference:
+- https://github.com/microsoft/onnxruntime/issues/10038
