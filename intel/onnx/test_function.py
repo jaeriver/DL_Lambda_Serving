@@ -81,3 +81,15 @@ def lambda_handler(event, context):
         time_list.append(running_time)
     time_medium = np.median(np.array(time_list))
     return time_medium
+
+event = {
+  "bucket_name": "dl-converted-models",
+  "batch_size": 1,
+  "arch_type": "intel",
+  "framework": "mxnet",
+  "model_name": "bert_base.tar",
+  "workload": "bert",
+  "count": 5,
+  "is_build": false
+}
+lambda_handler(event,"")
