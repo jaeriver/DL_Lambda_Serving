@@ -18,7 +18,7 @@ ENV PATH=$TVM_HOME/python:$PATH
 RUN pip3 install -r requirements.txt
 
 # install packages
-RUN  mkdir tvm/build && cp config.cmake tvm/build && env CC=cc CXX=CC
+RUN mkdir tvm/build && cp config.cmake tvm/build && env CC=cc CXX=CC
 
 RUN cd tvm/build && cmake .. && make -j3
 
