@@ -1,8 +1,11 @@
-import numpy as np
-import onnxruntime as ort
-import argparse
+from json import load
+import mxnet as mx
+import mxnet.ndarray as nd
+from mxnet import nd, gluon
 import time
-import boto3
+import numpy as np
+
+ctx = mx.cpu()
 
 image_size = 224
 channel = 3
