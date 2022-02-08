@@ -84,7 +84,7 @@ def lambda_handler(event, context):
         start_time = time.time()
         module.run(data=data)
         running_time = time.time() - start_time
-        print(f"VM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
+#         print(f"VM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
         time_list.append(running_time)
     time_medium = np.median(np.array(time_list))
     return time_medium
