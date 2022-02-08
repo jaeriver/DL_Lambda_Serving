@@ -55,7 +55,7 @@ def lambda_handler(event, context):
     framework = event['framework']
     model_name = event['model_name']
     compiler = 'tvm'
-    model_path = f"{framework}/{compiler}/{arch_type}/{model_name}"
+    model_path = "mxnet/tvm/intel/" + model_name
     workload = event['workload']
     is_build = event['is_build']
     count = event['count']
