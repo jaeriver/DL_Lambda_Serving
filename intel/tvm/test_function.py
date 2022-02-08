@@ -57,7 +57,7 @@ def lambda_handler(event, context):
     framework = event['framework']
     model_name = event['model_name']
     compiler = 'tvm'
-    model_path = "mxnet/tvm/intel/" + model_name
+    model_path = f'{framework}/{compiler}/{arch_type}/{model_name}'
     workload = event['workload']
     is_build = event['is_build']
     count = event['count']
@@ -83,14 +83,11 @@ def lambda_handler(event, context):
     
     
     time_list = []
-    for i in range(count):
-        start_time = time.time()
-        module.run(data=data)
-        running_time = time.time() - start_time
-#         print(f"VM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-        time_list.append(running_time)
-    time_medium = np.median(np.array(time_list))
-    return time_medium
+    start_time = time.time()
+    module.run(data=data)
+    running_time = time.time() - start_time
+    print(f"TVM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
+    return running_time
 
   
 event = {
