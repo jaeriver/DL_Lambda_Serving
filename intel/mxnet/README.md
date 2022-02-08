@@ -1,6 +1,6 @@
 ### Push docker image to AWS ECR
 ```
-export IMAGE_NAME="onnx_lambda_container"
+export IMAGE_NAME="mxnet_lambda_container"
 
 docker build -t $IMAGE_NAME . --no-cache
 
@@ -20,8 +20,8 @@ docker push $ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/$IMAGE_NAME
   "batch_size": 1,
   "arch_type": "intel",
   "framework" : "mxnet",
-  "model_name": "bert_base.onnx",
-  "workload" : "bert",
+  "model_name": "resnet50",
+  "workload" : "image_classification",
   "count": 5
 }
 ```
