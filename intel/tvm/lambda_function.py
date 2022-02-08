@@ -18,9 +18,11 @@ image_classification_shape_type = {
 
 s3_client = boto3.client('s3')    
 
-def get_model(bucket_name, model_path, model_name):
-    return s3_client.get_object(Bucket=bucket_name, Key=model_path)['Body'].read()
-
+def get_model(bucket_name, model_path):
+    model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model_params')['Body'].read()
+    model_json = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model_json')['Body'].read()
+    model_lib = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model_lib')['Body'].read()
+    return model_params, model_json, model_lib
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -66,8 +68,9 @@ def lambda_handler(event, context):
         target = arch_type
     ctx = tvm.cpu()
     
-    loaded_lib = tvm.runtime.load_module(get_model(bucket_name, model_path, model_name))
-    module = runtime.GraphModule(loaded_lib["default"](ctx))
+    model_params, model_json, model_lib = get_model(bucket_name, model_path)
+    module = graph_runtime.create(graph, lib, ctx)
+    module.set_input(**params)
     
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
@@ -80,11 +83,8 @@ def lambda_handler(event, context):
     
     
     time_list = []
-    for i in range(count):
-        start_time = time.time()
-        module.run(data=data)
-        running_time = time.time() - start_time
-        print(f"VM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-        time_list.append(running_time)
-    time_medium = np.median(np.array(time_list))
-    return time_medium
+    start_time = time.time()
+    module.run(data=data)
+    running_time = time.time() - start_time
+    print(f"TVM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
+    return running_time
