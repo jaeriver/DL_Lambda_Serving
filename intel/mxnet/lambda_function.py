@@ -17,7 +17,9 @@ image_classification_shape_type = {
 s3_client = boto3.client('s3')    
 
 def get_model(bucket_name, model_path, model_name):
-    return s3_client.get_object(Bucket=bucket_name, Key=model_path)['Body'].read()
+    model_json = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.json')['Body'].read()
+    model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.params')['Body'].read()
+    return model_json, model_params
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -49,18 +51,15 @@ def lambda_handler(event, context):
     arch_type = event['arch_type']
     framework = event['framework']
     model_name = event['model_name']
-    compiler = 'onnx'
+    compiler = 'base'
     model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
     is_build = event['is_build']
     count = event['count']
-    s3_client = boto3.client('s3')    
-    onnx_file = s3_client.get_object(Bucket=bucket_name, Key=model_path)
+    s3_client = boto3.client('s3')
     
-    session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
-    session.get_modelmeta()
-    inname = [input.name for input in session.get_inputs()]
-    outname = [output.name for output in session.get_outputs()]
+    model_json, model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path)
+    model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
     
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
@@ -69,16 +68,13 @@ def lambda_handler(event, context):
     else:
         data, token_types, valid_length = make_dataset(batch_size, workload, framework)
     
-    time_list = []
-    for i in range(count):
-        start_time = time.time()
-        if workload == "image_classification":
-            session.run(outname, {inname[0]: data})
-        # case : bert
-        else:
-            session.run(outname, {inname[0]: data,inname[1]:token_types,inname[2]:valid_length})
-        running_time = time.time() - start_time
-        print(f"VM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-        time_list.append(running_time)
-    time_medium = np.median(np.array(time_list))
-    return time_medium
+
+    start_time = time.time()
+    if workload == "image_classification":
+        model(data)
+    # case : bert
+    else:
+        model(data)
+    running_time = time.time() - start_time
+    print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
+    return running_time
