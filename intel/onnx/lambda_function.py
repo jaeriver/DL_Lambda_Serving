@@ -42,6 +42,7 @@ def make_dataset(batch_size, workload, framework):
 
 
 def lambda_handler(event, context):
+    print(event)
     bucket_name = event['bucket_name']
     batch_size = event['batch_size']
     arch_type = event['arch_type']
