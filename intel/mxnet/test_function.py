@@ -58,7 +58,7 @@ def lambda_handler(event, context):
     count = event['count']
     s3_client = boto3.client('s3')
     
-    model_json, model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path)
+    model_json, model_params = get_model(Bucket=bucket_name, Key=model_path)
     model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
     
     if workload == "image_classification":
