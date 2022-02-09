@@ -16,12 +16,18 @@ image_classification_shape_type = {
     "mxnet" : (channel, image_size, image_size),
     "tf" : (image_size, image_size, channel)
 }
-
+bucket_name = os.environ['bucket_name']
+model_name = os.environ['model_name']
+model_path = f'mxnet/tvm/intel/{model_name}'
 s3_client = boto3.client('s3')    
-
 def get_model(bucket_name, model_path, model_name):
     s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
     return '/tmp/' + model_name
+
+ctx = tvm.cpu()
+
+loaded_lib = tvm.runtime.load_module(get_model(bucket_name, model_path, model_name))
+module = runtime.GraphModule(loaded_lib["default"](ctx))
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -51,11 +57,9 @@ load_model = time.time()
 
 def lambda_handler(event, context):
     event = event['body-json']
-    bucket_name = os.environ['bucket_name']
     batch_size = event['batch_size']
     arch_type = event['arch_type']
     framework = event['framework']
-    model_name = os.environ['model_name']
     compiler = 'tvm'
     model_path = f'{framework}/{compiler}/{arch_type}/{model_name}'
     workload = event['workload']
@@ -64,10 +68,7 @@ def lambda_handler(event, context):
         target = tvm.target.arm_cpu()
     else:
         target = arch_type
-    ctx = tvm.cpu()
-    
-    loaded_lib = tvm.runtime.load_module(get_model(bucket_name, model_path, model_name))
-    module = runtime.GraphModule(loaded_lib["default"](ctx))
+
     
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
@@ -77,7 +78,6 @@ def lambda_handler(event, context):
     else:
         data, token_types, valid_length = make_dataset(batch_size, workload, framework)
         module.set_input(data0=data, data1=token_types, data2=valid_length)
-    
     
     start_time = time.time()
     module.run(data=data)
