@@ -8,6 +8,7 @@ from tvm.contrib import graph_runtime
 import tvm.contrib.graph_executor as runtime
 import onnx
 import boto3
+import os
 print('import time: ', time.time() - import_start_time)
 
 image_size = 224
