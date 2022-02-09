@@ -180,9 +180,9 @@ def benchmark(model, batch_size, dtype, target, repeat):
         with tvm.transform.PassContext(opt_level=3):
             graph, lib, params = relay.build(mod, target=target, params=params)
         ctx = tvm.cpu()
-        print(type(graph), graph)
-        print(type(lib), lib)
-        print(type(params), params)
+        print(type(graph))
+        print(type(lib))
+        print(type(params))
 
         export_results(graph,lib,params,model,batch_size)
 
