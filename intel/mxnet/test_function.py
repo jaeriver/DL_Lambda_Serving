@@ -59,6 +59,8 @@ def lambda_handler(event, context):
     s3_client = boto3.client('s3')
     
     model_json, model_params = get_model(bucket_name, model_path)
+    model_json = "s3://dl-converted-models/mxnet/base/mobilenet_v2/model.json"
+    model_params = "s3://dl-converted-models/mxnet/base/mobilenet_v2/model.params"
     model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
     
     if workload == "image_classification":
