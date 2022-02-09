@@ -17,10 +17,10 @@ image_classification_shape_type = {
 
 s3_client = boto3.client('s3')    
 
-def get_model(bucket_name, model_path):
-    model_json = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.json')['Body'].read()
-    model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.params')['Body'].read()
-    return model_json, model_params
+def get_model(bucket_name, model_path, model_name):
+    s3_client.download_file(bucket_name, model_path + '/model.json', '/tmp/'+ 'model.json')
+    s3_client.download_file(bucket_name, model_path + '/model.params', '/tmp/'+ 'model.params')
+    return '/tmp/'+ 'model.json', '/tmp/'+ 'model.params'
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -47,6 +47,7 @@ def make_dataset(batch_size, workload, framework):
 
 
 def lambda_handler(event, context):
+    event = event['body-json']
     bucket_name = event['bucket_name']
     batch_size = event['batch_size']
     arch_type = event['arch_type']
@@ -55,12 +56,8 @@ def lambda_handler(event, context):
     compiler = 'base'
     model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
-    count = event['count']
-    s3_client = boto3.client('s3')
-    
-    model_json, model_params = get_model(bucket_name, model_path)
-    model_json = "s3://dl-converted-models/mxnet/base/mobilenet_v2/model.json"
-    model_params = "s3://dl-converted-models/mxnet/base/mobilenet_v2/model.params"
+
+    model_json, model_params = get_model(bucket_name, model_path, model_name)
     model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
     
     if workload == "image_classification":
@@ -72,14 +69,11 @@ def lambda_handler(event, context):
     
 
     start_time = time.time()
-    if workload == "image_classification":
-        model(data)
-    # case : bert
-    else:
-        model(data)
+    model(data)
     running_time = time.time() - start_time
     print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
     return running_time
+
 
 event = {
   "bucket_name": "dl-converted-models",
