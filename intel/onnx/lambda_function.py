@@ -13,10 +13,16 @@ image_classification_shape_type = {
 }
 
 s3_client = boto3.client('s3')    
+bucket_name = os.environ['bucket_name']
+model_name = os.environ['model_name']
+model_path = f'mxnet/onnx/{model_name}'
 
 def get_model(bucket_name, model_path, model_name):
     s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
     return '/tmp/' + model_name
+
+session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
+session.get_modelmeta()
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -53,8 +59,6 @@ def lambda_handler(event, context):
     model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
     
-    session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
-    session.get_modelmeta()
     inname = [input.name for input in session.get_inputs()]
     outname = [output.name for output in session.get_outputs()]
     
