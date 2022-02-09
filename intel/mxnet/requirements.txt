@@ -2,4 +2,4 @@ numpy
 boto3
 pytest
 python-dotenv
-mxnet==0.10.0
+mxnet
