@@ -19,10 +19,8 @@ image_classification_shape_type = {
 s3_client = boto3.client('s3')    
 
 def get_model(bucket_name, model_path):
-    model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.params')['Body'].read()
-    model_json = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.json')['Body'].read()
-    model_lib = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.tar')['Body'].read()
-    return model_params, model_json, model_lib
+    s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
+    return '/tmp/' + model_name
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -59,8 +57,6 @@ def lambda_handler(event, context):
     compiler = 'tvm'
     model_path = f'{framework}/{compiler}/{arch_type}/{model_name}'
     workload = event['workload']
-    is_build = event['is_build']
-    count = event['count']
     
     if arch_type == 'arm':
         target = tvm.target.arm_cpu()
@@ -68,9 +64,8 @@ def lambda_handler(event, context):
         target = arch_type
     ctx = tvm.cpu()
     
-    params, graph, lib = get_model(bucket_name, model_path)
-    module = graph_runtime.create(graph, lib, ctx)
-    module.set_input(**params)
+    loaded_lib = tvm.runtime.load_module(get_model(bucket_name, model_path, model_name))
+    module = runtime.GraphModule(loaded_lib["default"](ctx))
     
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
@@ -82,7 +77,6 @@ def lambda_handler(event, context):
         module.set_input(data0=data, data1=token_types, data2=valid_length)
     
     
-    time_list = []
     start_time = time.time()
     module.run(data=data)
     running_time = time.time() - start_time
