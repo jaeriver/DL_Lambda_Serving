@@ -5,6 +5,7 @@ import numpy as np
 import tvm 
 from tvm.contrib import graph_executor
 from tvm.contrib import graph_runtime
+import tvm.contrib.graph_executor as runtime
 import onnx
 import boto3
 print('import time: ', time.time() - import_start_time)
