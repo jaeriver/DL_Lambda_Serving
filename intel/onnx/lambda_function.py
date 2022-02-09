@@ -50,9 +50,6 @@ def lambda_handler(event, context):
     compiler = 'onnx'
     model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
-    is_build = event['is_build']
-    count = event['count']
-    s3_client = boto3.client('s3')    
     
     session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
     session.get_modelmeta()
@@ -66,16 +63,12 @@ def lambda_handler(event, context):
     else:
         data, token_types, valid_length = make_dataset(batch_size, workload, framework)
     
-    time_list = []
-    for i in range(count):
-        start_time = time.time()
-        if workload == "image_classification":
-            session.run(outname, {inname[0]: data})
-        # case : bert
-        else:
-            session.run(outname, {inname[0]: data,inname[1]:token_types,inname[2]:valid_length})
-        running_time = time.time() - start_time
-        print(f"VM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-        time_list.append(running_time)
-    time_medium = np.median(np.array(time_list))
-    return time_medium
+    start_time = time.time()
+    if workload == "image_classification":
+        session.run(outname, {inname[0]: data})
+    # case : bert
+    else:
+        session.run(outname, {inname[0]: data,inname[1]:token_types,inname[2]:valid_length})
+    running_time = time.time() - start_time
+    print(f"ONNX {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
+    return running_time
