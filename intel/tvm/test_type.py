@@ -177,14 +177,17 @@ def benchmark(model, batch_size, dtype, target, repeat):
         #Make module 
         module = runtime.GraphModule(lib["default"](ctx))
         
-        # with tvm.transform.PassContext(opt_level=3):
-        #     graph, lib, params = relay.build(mod, target=target, params=params)
-        # ctx = tvm.cpu()
+        with tvm.transform.PassContext(opt_level=3):
+            graph, lib, params = relay.build(mod, target=target, params=params)
+        ctx = tvm.cpu()
+        print(type(graph), graph)
+        print(type(lib), lib)
+        print(type(params), params)
 
-        # export_results(graph,lib,params,model,batch_size)
+        export_results(graph,lib,params,model,batch_size)
 
-        # module = tvm.contrib.graph_runtime.create(graph, lib, ctx)
-        # module.load_params(params)     
+        module = tvm.contrib.graph_runtime.create(graph, lib, ctx)
+        module.load_params(params)     
 
         # Feed input data
         data = np.random.uniform(size=input_shape)
