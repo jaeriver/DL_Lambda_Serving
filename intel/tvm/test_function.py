@@ -95,7 +95,7 @@ event = {
   "batch_size": 1,
   "arch_type": "intel",
   "framework" : "mxnet",
-  "model_name": "bert_base.tar",
+  "model_name": "bert_base_1",
   "workload" : "bert",
   "count": 5,
   "is_build":"false"
