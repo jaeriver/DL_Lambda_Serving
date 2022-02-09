@@ -69,6 +69,7 @@ def lambda_handler(event, context):
     ctx = tvm.cpu()
     
     params, graph, lib = get_model(bucket_name, model_path)
+    print(type(params), type(graph), type(lib))
     module = graph_runtime.create(graph, lib, ctx)
     module.set_input(**params)
     
