@@ -17,7 +17,7 @@ image_classification_shape_type = {
 
 s3_client = boto3.client('s3')    
 
-def get_model(bucket_name, model_path, model_name):
+def get_model(bucket_name, model_path):
     model_json = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.json')['Body'].read()
     model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.params')['Body'].read()
     return model_json, model_params
