@@ -3,6 +3,7 @@ import onnxruntime as ort
 import argparse
 import time
 import boto3
+import os
 
 image_size = 224
 channel = 3
@@ -43,11 +44,11 @@ def make_dataset(batch_size, workload, framework):
 
 def lambda_handler(event, context):
     event = event['body-json']
-    bucket_name = event['bucket_name']
+    bucket_name = os.environ['bucket_name']
     batch_size = event['batch_size']
     arch_type = event['arch_type']
     framework = event['framework']
-    model_name = event['model_name']
+    model_name = os.environ['model_name']
     compiler = 'onnx'
     model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
