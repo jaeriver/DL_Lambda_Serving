@@ -7,6 +7,7 @@ from tvm.contrib import graph_executor
 from tvm.contrib import graph_runtime
 import onnx
 import boto3
+import json
 print('import time: ', time.time() - import_start_time)
 
 image_size = 224
@@ -19,9 +20,9 @@ image_classification_shape_type = {
 s3_client = boto3.client('s3')    
 
 def get_model(bucket_name, model_path):
-    model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.params')['Body'].read().decode('utf-8') 
-    model_json = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.json')['Body'].read().decode('utf-8') 
-    model_lib = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.tar')['Body'].read().decode('utf-8') 
+    model_params = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.params')['Body'].read()
+    model_json = json.load(s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.json')['Body'].read().decode('utf-8') )
+    model_lib = s3_client.get_object(Bucket=bucket_name, Key=model_path + '/model.tar')['Body'].read()
     return model_params, model_json, model_lib
 
 def make_dataset(batch_size, workload, framework):
