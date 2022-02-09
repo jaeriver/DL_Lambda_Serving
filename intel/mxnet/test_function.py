@@ -4,6 +4,7 @@ import mxnet.ndarray as nd
 from mxnet import nd, gluon
 import time
 import numpy as np
+import boto3
 
 ctx = mx.cpu()
 
