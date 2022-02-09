@@ -24,7 +24,6 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 - NLP (Natural Language Processing) with Bert, Transformer (preparing)
 
 ## To Do
-- All NLP scenario
 - ARM architecture
 
 ## Future Work
