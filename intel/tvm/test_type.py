@@ -181,11 +181,11 @@ def benchmark(model, batch_size, dtype, target, repeat):
             graph, lib, params = relay.build(mod, target=target, params=params)
         ctx = tvm.cpu()
         print(type(params))
-        print(params)
+#         print(params)
         print(type(graph))
-        print(graph)
+#         print(graph)
         print(type(lib))
-        print(lib)
+#         print(lib)
 
         export_results(graph,lib,params,model,batch_size)
 
