@@ -25,7 +25,7 @@ Deep Learning Inference Serving with variety Frameworks in AWS Lambda
 
 ## To Do
 - All NLP scenario
-- Pytorch, Tensorflow Lite, TF(in ARM)
+- ARM architecture
 
 ## Future Work
 - Use AWS SAM to build Serverless System
