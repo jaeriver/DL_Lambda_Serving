@@ -49,6 +49,7 @@ load_model = time.time()
 
 
 def lambda_handler(event, context):
+    event = event['body-json']
     bucket_name = event['bucket_name']
     batch_size = event['batch_size']
     arch_type = event['arch_type']
