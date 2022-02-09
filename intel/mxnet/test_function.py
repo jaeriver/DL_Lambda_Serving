@@ -27,7 +27,7 @@ def make_dataset(batch_size, workload, framework):
         image_shape = image_classification_shape_type[framework]
         data_shape = (batch_size,) + image_shape
 
-        data = np.random.uniform(size=input_shape)
+        data = np.random.uniform(size=data_shape)
         data = mx.nd.array(data, ctx=ctx)
 
         return data, image_shape
