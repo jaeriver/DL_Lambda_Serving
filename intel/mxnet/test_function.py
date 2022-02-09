@@ -54,7 +54,6 @@ def lambda_handler(event, context):
     compiler = 'base'
     model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
-    is_build = event['is_build']
     count = event['count']
     s3_client = boto3.client('s3')
     
@@ -78,3 +77,13 @@ def lambda_handler(event, context):
     running_time = time.time() - start_time
     print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
     return running_time
+event = {
+  "bucket_name": "dl-converted-models",
+  "batch_size": 1,
+  "arch_type": "intel",
+  "framework" : "mxnet",
+  "model_name": "resnet50",
+  "workload" : "image_classification",
+  "count": 5
+}
+lambda_handler(event,"")
