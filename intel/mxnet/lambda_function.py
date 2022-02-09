@@ -55,10 +55,7 @@ def lambda_handler(event, context):
     compiler = 'base'
     model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
-    is_build = event['is_build']
-    count = event['count']
-    s3_client = boto3.client('s3')
-    
+
     model_json, model_params = get_model(bucket_name, model_path, model_name)
     model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
     
