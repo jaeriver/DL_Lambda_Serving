@@ -55,9 +55,9 @@ def lambda_handler(event, context):
     handler_start = time.time()
     event = event['body-json']
     batch_size = event['batch_size']
-    framework = event['framework']
     compiler = 'tvm'
     workload = event['workload']
+    framework = 'mxnet'   
     
     if arch_type == 'arm':
         target = tvm.target.arm_cpu()
