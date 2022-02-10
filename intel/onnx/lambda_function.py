@@ -1,7 +1,8 @@
+import time
+total_start = time.time()
 import numpy as np
 import onnxruntime as ort
 import argparse
-import time
 import boto3
 import os
 
@@ -21,8 +22,10 @@ def get_model(bucket_name, model_path, model_name):
     s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
     return '/tmp/' + model_name
 
+load_start = time.time()
 session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
 session.get_modelmeta()
+load_time = time.time() - load_start
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -61,14 +64,14 @@ def lambda_handler(event, context):
     
     inname = [input.name for input in session.get_inputs()]
     outname = [output.name for output in session.get_outputs()]
-    
+    data_start = time.time()
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
         input_name = "data"
     #case bert
     else:
         data, token_types, valid_length = make_dataset(batch_size, workload, framework)
-    
+    data_time = time.time() - data_start
     start_time = time.time()
     if workload == "image_classification":
         session.run(outname, {inname[0]: data})
@@ -77,4 +80,5 @@ def lambda_handler(event, context):
         session.run(outname, {inname[0]: data,inname[1]:token_types,inname[2]:valid_length})
     running_time = time.time() - start_time
     print(f"ONNX {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-    return running_time
+    total_time = time.time() - total_start
+    return {'running_time': running_time, 'total_time': total_time, 'data_time':data_time, 'load_time':load_time}
