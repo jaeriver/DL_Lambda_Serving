@@ -1,5 +1,4 @@
 import time
-total_start = time.time()
 from json import load
 import mxnet as mx
 import mxnet.ndarray as nd
@@ -54,22 +53,21 @@ def make_dataset(batch_size, workload, framework):
 
 
 def lambda_handler(event, context):
+    handler_start = time.time()
     event = event['body-json']
     batch_size = event['batch_size']
     workload = event['workload']
     
-    data_start = time.time()
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
         input_name = "data"
     #case bert
     else:
         data, token_types, valid_length = make_dataset(batch_size, workload, framework)
-    data_time = time.time() - data_start   
 
     start_time = time.time()
     model(data)
     running_time = time.time() - start_time
     print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-    total_time =  time.time() - total_start
-    return {'running_time': running_time, 'total_time': total_time, 'data_time':data_time, 'load_time':load_time}
+    handler_time = time.time() - handler_start
+    return {'handler_time': handler_time, 'load_time': load_time}
