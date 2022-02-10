@@ -8,19 +8,29 @@ import boto3
 
 ctx = mx.cpu()
 
+
+
+s3_client = boto3.client('s3')    
+bucket_name = os.environ['bucket_name']
+model_name = os.environ['model_name']
+model_path = f'mxnet/base/{model_name}'
+
 image_size = 224
+if model_name == "inception_v3":
+    image_size = 299
 channel = 3
+
 image_classification_shape_type = {
     "mxnet" : (channel, image_size, image_size),
     "tf" : (image_size, image_size, channel)
 }
-
-s3_client = boto3.client('s3')    
-
 def get_model(bucket_name, model_path, model_name):
     s3_client.download_file(bucket_name, model_path + '/model.json', '/tmp/'+ 'model.json')
     s3_client.download_file(bucket_name, model_path + '/model.params', '/tmp/'+ 'model.params')
     return '/tmp/'+ 'model.json', '/tmp/'+ 'model.params'
+
+model_json, model_params = get_model(bucket_name, model_path, model_name)
+model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -55,12 +65,8 @@ def lambda_handler(event, context):
     framework = event['framework']
     model_name = event['model_name']
     compiler = 'base'
-    model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
 
-    model_json, model_params = get_model(bucket_name, model_path, model_name)
-    model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
-    
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
         input_name = "data"
