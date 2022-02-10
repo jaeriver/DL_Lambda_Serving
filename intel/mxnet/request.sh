@@ -4,7 +4,7 @@ function_name='jg-mxnet-serving'
 aws lambda update-function-configuration \
     --function-name $function_name \
     --environment Variables="{model_name=$1}"
-sleep 5    
+sleep 20    
     
 SET=$(seq 0 4)
 for i in $SET
