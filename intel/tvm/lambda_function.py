@@ -9,7 +9,7 @@ import os
 
 model_name = os.environ['model_name']
 efs_path = '/mnt/efs/'
-model_path = efs_path + f'mxnet/tvm/{model_name}'
+model_path = efs_path + f'mxnet/tvm/intel/{model_name}'
 
 image_size = 224
 if "inception_v3" in model_name:
