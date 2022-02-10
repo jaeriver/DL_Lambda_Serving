@@ -3,7 +3,6 @@ total_start = time.time()
 import numpy as np
 import onnxruntime as ort
 import argparse
-import boto3
 import os
 
 image_size = 224
@@ -13,17 +12,12 @@ image_classification_shape_type = {
     "tf" : (image_size, image_size, channel)
 }
 
-s3_client = boto3.client('s3')    
-bucket_name = os.environ['bucket_name']
 model_name = os.environ['model_name']
-model_path = f'mxnet/onnx/{model_name}'
-
-def get_model(bucket_name, model_path, model_name):
-    s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
-    return '/tmp/' + model_name
+efs_path = '/mnt/efs/'
+model_path = efs_path + f'mxnet/base/{model_name}'
 
 load_start = time.time()
-session = ort.InferenceSession(get_model(bucket_name, model_path, model_name))
+session = ort.InferenceSession(model_path)
 session.get_modelmeta()
 load_time = time.time() - load_start
 
@@ -52,14 +46,10 @@ def make_dataset(batch_size, workload, framework):
 
 
 def lambda_handler(event, context):
+    handler_start = time.time()
     event = event['body-json']
     bucket_name = os.environ['bucket_name']
     batch_size = event['batch_size']
-    arch_type = event['arch_type']
-    framework = event['framework']
-    model_name = os.environ['model_name']
-    compiler = 'onnx'
-    model_path = f'{framework}/{compiler}/{model_name}'
     workload = event['workload']
     
     inname = [input.name for input in session.get_inputs()]
@@ -81,4 +71,5 @@ def lambda_handler(event, context):
     running_time = time.time() - start_time
     print(f"ONNX {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
     total_time = time.time() - total_start
-    return {'running_time': running_time, 'total_time': total_time, 'data_time':data_time, 'load_time':load_time}
+    handler_time = time.time() - handler_start
+    return {'running_time': running_time, 'total_time': total_time, 'data_time':data_time, 'load_time':load_time, 'handler_time': handler_time}
