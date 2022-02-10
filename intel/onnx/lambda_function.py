@@ -51,6 +51,7 @@ def lambda_handler(event, context):
     bucket_name = os.environ['bucket_name']
     batch_size = event['batch_size']
     workload = event['workload']
+    framework = 'mxnet'
     
     inname = [input.name for input in session.get_inputs()]
     outname = [output.name for output in session.get_outputs()]
