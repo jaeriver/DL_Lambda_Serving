@@ -1,5 +1,5 @@
 API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/onnx"
-function_name='jg-onnx-serving'
+function_name='jg-onnx_serving'
 
 aws lambda update-function-configuration \
     --function-name $function_name \
