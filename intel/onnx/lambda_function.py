@@ -2,19 +2,21 @@ import time
 total_start = time.time()
 import numpy as np
 import onnxruntime as ort
-import argparse
 import os
 
+
+model_name = os.environ['model_name']
+efs_path = '/mnt/efs/'
+model_path = efs_path + f'mxnet/onnx/{model_name}'
+
 image_size = 224
+if "inception_v3" in model_name:
+    image_size = 299
 channel = 3
 image_classification_shape_type = {
     "mxnet" : (channel, image_size, image_size),
     "tf" : (image_size, image_size, channel)
 }
-
-model_name = os.environ['model_name']
-efs_path = '/mnt/efs/'
-model_path = efs_path + f'mxnet/base/{model_name}'
 
 load_start = time.time()
 session = ort.InferenceSession(model_path)
