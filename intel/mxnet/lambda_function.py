@@ -1,8 +1,9 @@
+import time
+total_start = time.time()
 from json import load
 import mxnet as mx
 import mxnet.ndarray as nd
 from mxnet import nd, gluon
-import time
 import numpy as np
 import boto3
 import os
@@ -30,8 +31,10 @@ def get_model(bucket_name, model_path, model_name):
     s3_client.download_file(bucket_name, model_path + '/model.params', '/tmp/'+ 'model.params')
     return '/tmp/'+ 'model.json', '/tmp/'+ 'model.params'
 
+load_start = time.time()
 model_json, model_params = get_model(bucket_name, model_path, model_name)
 model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
+load_time = time.time() - load_start
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -67,17 +70,19 @@ def lambda_handler(event, context):
     model_name = event['model_name']
     compiler = 'base'
     workload = event['workload']
-
+    
+    data_start = time.time()
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
         input_name = "data"
     #case bert
     else:
         data, token_types, valid_length = make_dataset(batch_size, workload, framework)
-    
+    data_time = time.time() - data_start   
 
     start_time = time.time()
     model(data)
     running_time = time.time() - start_time
     print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-    return running_time
+    total_time =  time.time() - total_start
+    return {'running_time': running_time, 'total_time': total_time, 'data_time':data_time, 'load_time':load_time}
