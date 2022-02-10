@@ -1,34 +1,31 @@
 import time
-import_start_time = time.time()
+import tvm 
 from tvm import relay
 import numpy as np 
-import tvm 
 from tvm.contrib import graph_executor
 from tvm.contrib import graph_runtime
 import tvm.contrib.graph_executor as runtime
-import onnx
-import boto3
 import os
-print('import time: ', time.time() - import_start_time)
+
+model_name = os.environ['model_name']
+efs_path = '/mnt/efs/'
+model_path = efs_path + f'mxnet/tvm/{model_name}'
 
 image_size = 224
+if "inception_v3" in model_name:
+    image_size = 299
 channel = 3
 image_classification_shape_type = {
     "mxnet" : (channel, image_size, image_size),
     "tf" : (image_size, image_size, channel)
 }
-bucket_name = os.environ['bucket_name']
-model_name = os.environ['model_name']
-model_path = f'mxnet/tvm/intel/{model_name}'
-s3_client = boto3.client('s3')    
-def get_model(bucket_name, model_path, model_name):
-    s3_client.download_file(bucket_name, model_path, '/tmp/'+ model_name)
-    return '/tmp/' + model_name
 
 ctx = tvm.cpu()
 
-loaded_lib = tvm.runtime.load_module(get_model(bucket_name, model_path, model_name))
+load_start = time.time()
+loaded_lib = tvm.runtime.load_module(model_path)
 module = runtime.GraphModule(loaded_lib["default"](ctx))
+load_time = time.time() - load_start
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
@@ -53,23 +50,19 @@ def make_dataset(batch_size, workload, framework):
 
         return inputs, token_types, valid_length
 
-load_model = time.time()
-
 
 def lambda_handler(event, context):
+    handler_start = time.time()
     event = event['body-json']
     batch_size = event['batch_size']
-    arch_type = event['arch_type']
     framework = event['framework']
     compiler = 'tvm'
-    model_path = f'{framework}/{compiler}/{arch_type}/{model_name}'
     workload = event['workload']
     
     if arch_type == 'arm':
         target = tvm.target.arm_cpu()
     else:
         target = arch_type
-
     
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
@@ -84,4 +77,5 @@ def lambda_handler(event, context):
     module.run(data=data)
     running_time = time.time() - start_time
     print(f"TVM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-    return running_time
+    handler_time = time.time() - handler_start
+    return {'handler_time': handler_time, 'load_time': load_time}
