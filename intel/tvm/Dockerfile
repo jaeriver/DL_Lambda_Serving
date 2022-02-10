@@ -1,7 +1,7 @@
 FROM amazon/aws-lambda-python:3.8
 
 # install essential library
-RUN yum update && yum install -y wget && yum clean all
+RUN yum install -y wget
 RUN yum -y install cmake3 gcc gcc-c++ make && ln -s /usr/bin/cmake3 /usr/bin/cmake
 RUN yum -y install python3-dev python3-setuptools libtinfo-dev zlib1g-dev build-essential libedit-dev llvm llvm-devel libxml2-dev git tar wget gcc gcc-c++
 
