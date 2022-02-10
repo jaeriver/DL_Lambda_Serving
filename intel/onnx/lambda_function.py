@@ -48,7 +48,6 @@ def make_dataset(batch_size, workload, framework):
 def lambda_handler(event, context):
     handler_start = time.time()
     event = event['body-json']
-    bucket_name = os.environ['bucket_name']
     batch_size = event['batch_size']
     workload = event['workload']
     framework = 'mxnet'
