@@ -10,7 +10,7 @@ import os
 ctx = mx.cpu()
 
 model_name = os.environ['model_name']
-efs_path = '/mnt/efs'
+efs_path = '/mnt/efs/'
 model_path = efs_path + f'mxnet/base/{model_name}'
 
 image_size = 224
