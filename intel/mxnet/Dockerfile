@@ -1,7 +1,6 @@
 FROM amazon/aws-lambda-python:3.8
 
 # install essential library
-RUN yum update && yum clean all
 RUN yum -y install python3-dev python3-setuptools libtinfo-dev zlib1g-dev build-essential git libgomp
 
 RUN mkdir -p /var/task/lib
