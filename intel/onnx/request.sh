@@ -16,4 +16,5 @@ curl -X POST -H 'Content-Type: application/json' \
     echo ""
 end=`date +%s`
 runtime=$((end-start))
+echo "API runtime" $runtime
 done
