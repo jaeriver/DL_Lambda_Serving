@@ -5,6 +5,7 @@ from mxnet import nd, gluon
 import time
 import numpy as np
 import boto3
+import os
 
 ctx = mx.cpu()
 
