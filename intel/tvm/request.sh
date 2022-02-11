@@ -23,7 +23,7 @@ do
         response=$(curl -X POST -H 'Content-Type: application/json' \
             -d '{"batch_size": 1, "workload": "image_classification" }' \
             $API_URL)
-        echo response >> mxnet.txt
+        echo response >> tvm.txt
         end=`date +%s.%N`
         runtime=$(($end-$start))
         echo "API runtime" $runtime >> tvm.txt
