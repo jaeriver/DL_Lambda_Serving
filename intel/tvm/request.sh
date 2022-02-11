@@ -24,7 +24,7 @@ do
 
         start=$(($(date +%s%N)/1000000))
         response=$(curl -X POST -H 'Content-Type: application/json' \
-            -d '{"batch_size": 1, "workload": "image_classification", "arch_type": 'llvm' }' \
+            -d '{"batch_size": 1, "workload": "image_classification", "arch_type": "llvm -mcpu=core-avx2" }' \
             $API_URL)
         echo $response >> tvm.txt
         end=$(($(date +%s%N)/1000000))
