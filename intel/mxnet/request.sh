@@ -27,8 +27,8 @@ do
         echo $response >> mxnet.txt
         end=$(($(date +%s%N)/1000000))
         runtime=$((end - start))
-        echo "API runtime" $runtime >> mxnet.txt
-        echo "--------------------------------" >> mxnet.txt
+        echo "API runtime" $(runtime / 1000) $(runtime % 1000) >> mxnet.txt
         done
+    echo "--------------------------------" >> mxnet.txt
     done
 done
