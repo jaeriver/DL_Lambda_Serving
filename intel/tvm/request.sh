@@ -14,7 +14,7 @@ do
             --memory-size $mem
         sleep 60
 
-        echo $m "performance" >> tv,.txt
+        echo $m "performance" >> tvm.txt
         
         SET=$(seq 0 4)
         for i in $SET
