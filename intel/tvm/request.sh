@@ -10,7 +10,7 @@ do
     do
         aws lambda update-function-configuration \
             --function-name $function_name \
-            --environment Variables="{model_name=$m}"
+            --environment Variables="{model_name=$m}" \
             --memory-size $mem
         sleep 60
 
