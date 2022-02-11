@@ -17,16 +17,16 @@ do
         SET=$(seq 0 4)
         for i in $SET
         do
-        echo $m "performance"
-        echo "----------------"
+        echo $m "performance" >> tvm.txt
+        echo "----------------" >> tvm.txt
         start=`date +%s.%N`
-        curl -X POST -H 'Content-Type: application/json' \
+        response=$(curl -X POST -H 'Content-Type: application/json' \
             -d '{"batch_size": 1, "workload": "image_classification" }' \
-            $API_URL
-            echo ""
+            $API_URL)
+        echo response >> mxnet.txt
         end=`date +%s.%N`
         runtime=$((end-start))
-        echo "API runtime" $runtime
+        echo "API runtime" $runtime >> tvm.txt
         done
     done
 done
