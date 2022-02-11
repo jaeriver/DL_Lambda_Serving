@@ -20,13 +20,13 @@ do
         echo $m "performance"
         echo "----------------"
         start=`date +%s.%N`
-        curl -X POST -H 'Content-Type: application/json' \
+        response=$(curl -X POST -H 'Content-Type: application/json' \
             -d '{"batch_size": 1, "workload": "image_classification" }' \
-            $API_URL
-            echo ""
+            $API_URL)
+            echo response >> mxnet.txt
         end=`date +%s.%N`
         runtime=$((end-start))
-        echo "API runtime" $runtime
+        echo "API runtime" $runtime >> mxnet.txt
         done
     done
 done
