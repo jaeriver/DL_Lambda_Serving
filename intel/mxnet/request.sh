@@ -20,13 +20,14 @@ do
         for i in $SET
         do
 
-        start=$(date +%s%N)
+        start=$(($(date +%s%N)/1000000))
         response=$(curl -X POST -H 'Content-Type: application/json' \
             -d '{"batch_size": 1, "workload": "image_classification" }' \
             $API_URL)
         echo $response >> mxnet.txt
-        end=$(date +%s%N)
-        echo "API runtime" $(($(end-start)/1000000)) >> mxnet.txt
+        end=$(($(date +%s%N)/1000000))
+        runtime=$((end - start))
+        echo "API runtime" $runtime >> mxnet.txt
         echo "--------------------------------" >> mxnet.txt
         done
     done
