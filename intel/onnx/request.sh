@@ -5,6 +5,8 @@ models="mobilenet.onnx mobilenet_v2.onnx inception_v3.onnx resnet50.onnx alexnet
 memorys="512 1024 2048 4096 8192"
 
 for mem in $memorys
+echo "Memory:"$mem
+echo "---------------------"
 do
     for m in $models
     do
