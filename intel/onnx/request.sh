@@ -29,4 +29,5 @@ do
         echo "API runtime" $((runtime / 1000)).$((runtime % 1000)) >> onnx.txt
         done
     echo "--------------------------------" >> onnx.txt
+    done
 done
