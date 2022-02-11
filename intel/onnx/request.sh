@@ -1,8 +1,8 @@
 API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/onnx"
 function_name='jg-onnx_serving'
 
-models=("mobilenet.onnx" "mobilenet_v2.onnx" "inception_v3.onnx" "resnet50.onnx" "alexnet.onnx" "vgg16.onnx" "vgg19.onnx")
-memorys=("512" "1024" "2048" "4096" "8192")
+models="mobilenet.onnx mobilenet_v2.onnx inception_v3.onnx resnet50.onnx alexnet.onnx vgg16.onnx vgg19.onnx"
+memorys="512 1024 2048 4096 8192"
 
 for mem in $memorys
 do
