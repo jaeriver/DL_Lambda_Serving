@@ -5,9 +5,9 @@ models="mobilenet_1.tar mobilenet_v2_1.tar inception_v3_1.tar resnet50_1.tar ale
 memorys="512 1024 2048 4096 8192"
 
 for mem in $memorys
-echo "Memory:"$mem
-echo "---------------------"
 do
+    echo "Memory:"$mem >> tvm.txt
+    echo "---------------------" >> tvm.txt
     for m in $models
     do
         aws lambda update-function-configuration \
