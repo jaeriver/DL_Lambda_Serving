@@ -26,7 +26,7 @@ do
             $API_URL)
         echo $response >> mxnet.txt
         end=$(date +%s%N)
-        echo "API runtime" $((end-start))1000000 >> mxnet.txt
+        echo "API runtime" $((end-start))/1000000 >> mxnet.txt
         echo "--------------------------------" >> mxnet.txt
         done
     done
