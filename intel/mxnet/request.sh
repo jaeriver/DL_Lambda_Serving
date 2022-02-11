@@ -24,8 +24,8 @@ do
             -d '{"batch_size": 1, "workload": "image_classification" }' \
             $API_URL)
         echo $response >> mxnet.txt
-        end=$(date +%s%N)
-        echo "API runtime" $((end-start)) >> mxnet.txt
+#         end=$(date +%s%N)
+#         echo "API runtime" $((end-start)) >> mxnet.txt
         done
     done
 done
