@@ -13,20 +13,20 @@ do
             --environment Variables="{model_name=$m}" \
             --memory-size $mem
         sleep 60
+        
+        echo $m "performance" >> onnx.txt
 
         SET=$(seq 0 4)
         for i in $SET
         do
-        echo $m "performance" >> onnx.txt
-        echo "----------------" >> onnx.txt
-        start=`date +%s.%N`
+        start=$(($(date +%s%N)/1000000))
         response=$(curl -X POST -H 'Content-Type: application/json' \
             -d '{"batch_size": 1, "workload": "image_classification" }' \
             $API_URL)
-        echo response >> onnx.txt
-        end=`date +%s.%N`
-        runtime=$(($end-$start))
-        echo "API runtime" $runtime >> onnx.txt
+        echo $response >> mxnet.txt
+        end=$(($(date +%s%N)/1000000))
+        runtime=$((end - start))
+        echo "API runtime" $((runtime / 1000)).$((runtime % 1000)) >> mxnet.txt
         done
-    done
+    echo "--------------------------------" >> mxnet.txt
 done
