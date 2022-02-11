@@ -15,19 +15,19 @@ do
         sleep 60
         
         echo $m "performance" >> mxnet.txt
-        echo "----------------" >> mxnet.txt
         
         SET=$(seq 0 4)
         for i in $SET
         do
 
-        start=$(date +%s.%3N)
+        start=$(date +%s%N)
         response=$(curl -X POST -H 'Content-Type: application/json' \
             -d '{"batch_size": 1, "workload": "image_classification" }' \
             $API_URL)
         echo $response >> mxnet.txt
-        end=$(date +%s.%3N)
-        echo "API runtime" $((end-start)) >> mxnet.txt
+        end=$(date +%s%N)
+        echo "API runtime" $((end-start))1000000 >> mxnet.txt
+        echo "--------------------------------" >> mxnet.txt
         done
     done
 done
