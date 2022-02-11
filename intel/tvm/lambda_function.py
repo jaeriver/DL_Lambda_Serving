@@ -57,6 +57,7 @@ def lambda_handler(event, context):
     batch_size = event['batch_size']
     compiler = 'tvm'
     workload = event['workload']
+    arch_type = event['arch_type']
     framework = 'mxnet'   
     
     if arch_type == 'arm':
