@@ -23,10 +23,10 @@ do
         response=$(curl -X POST -H 'Content-Type: application/json' \
             -d '{"batch_size": 1, "workload": "image_classification" }' \
             $API_URL)
-        echo $response >> mxnet.txt
+        echo $response >> onnx.txt
         end=$(($(date +%s%N)/1000000))
         runtime=$((end - start))
-        echo "API runtime" $((runtime / 1000)).$((runtime % 1000)) >> mxnet.txt
+        echo "API runtime" $((runtime / 1000)).$((runtime % 1000)) >> onnx.txt
         done
-    echo "--------------------------------" >> mxnet.txt
+    echo "--------------------------------" >> onnx.txt
 done
