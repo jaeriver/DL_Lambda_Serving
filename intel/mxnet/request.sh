@@ -5,6 +5,8 @@ models="mobilenet mobilenet_v2 inception_v3 resnet50 alexnet vgg16 vgg19"
 memorys="512 1024 2048 4096 8192"
 
 for mem in $memorys
+echo "Memory:"$mem
+echo "---------------------"
 do
     for m in $models
     do
