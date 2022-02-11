@@ -5,6 +5,8 @@ models="mobilenet_1.tar mobilenet_v2_1.tar inception_v3_1.tar resnet50_1.tar ale
 memorys="512 1024 2048 4096 8192"
 
 for mem in $memorys
+echo "Memory:"$mem
+echo "---------------------"
 do
     for m in $models
     do
