@@ -14,19 +14,21 @@ do
             --memory-size $mem
         sleep 60
 
+        echo $m "performance" >> tv,.txt
+        
         SET=$(seq 0 4)
         for i in $SET
         do
-        echo $m "performance" >> tvm.txt
-        echo "----------------" >> tvm.txt
-        start=`date +%s.%N`
+
+        start=$(($(date +%s%N)/1000000))
         response=$(curl -X POST -H 'Content-Type: application/json' \
             -d '{"batch_size": 1, "workload": "image_classification" }' \
             $API_URL)
-        echo response >> tvm.txt
-        end=`date +%s.%N`
-        runtime=$(($end-$start))
-        echo "API runtime" $runtime >> tvm.txt
+        echo $response >> tvm.txt
+        end=$(($(date +%s%N)/1000000))
+        runtime=$((end - start))
+        echo "API runtime" $((runtime / 1000)).$((runtime % 1000)) >> tvm.txt
         done
+    echo "--------------------------------" >> tvm.txt
     done
 done
