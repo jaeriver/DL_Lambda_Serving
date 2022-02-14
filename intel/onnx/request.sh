@@ -1,7 +1,7 @@
 framwork="onnx"
 
 API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/$framework"
-function_name='jg-mxnet-serving'
+function_name='jg-$framework-serving'
 
 models="mobilenet.onnx mobilenet_v2.onnx inception_v3.onnx resnet50.onnx alexnet.onnx vgg16.onnx vgg19.onnx"
 models=$(rev<<<$models)
