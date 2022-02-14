@@ -70,4 +70,4 @@ def lambda_handler(event, context):
     running_time = time.time() - start_time
     print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
     handler_time = time.time() - handler_start
-    return load_time, handler_time
+    return str(load_time), str(handler_time)
