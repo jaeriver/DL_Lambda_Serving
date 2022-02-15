@@ -56,7 +56,9 @@ def make_dataset(batch_size, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
+    print(event)
     event = io.BytesIO(base64.b64decode(event['body-json']))
+    print(event)
     batch_size = event['batch_size']
     workload = event['workload']
     data = event['data']
