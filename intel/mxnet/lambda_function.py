@@ -55,10 +55,10 @@ def make_dataset(batch_size, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
-    event = event['body-json']
-    batch_size = io.BytesIO(event['batch_size'])
-    workload = io.BytesIO(event['workload'])
-    data = io.BytesIO(event['data'])
+    event = event['body-json'].encode()
+    batch_size = event['batch_size']
+    workload = event['workload']
+    data = event['data']
     print(data)
     framework = 'mxnet'
     if workload == "image_classification":
