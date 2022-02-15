@@ -6,6 +6,7 @@ from mxnet import nd, gluon
 import numpy as np
 import os
 import io
+import base64
 
 ctx = mx.cpu()
 
@@ -55,7 +56,7 @@ def make_dataset(batch_size, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
-    event = event['body-json'].encode()
+    event = io.BytesIO(base64.b64decode(event['body-json']))
     batch_size = event['batch_size']
     workload = event['workload']
     data = event['data']
