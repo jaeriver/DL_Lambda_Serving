@@ -24,7 +24,9 @@ do
 
         start=$(($(date +%s%N)/1000000))
         response=$(curl -i -X POST -H 'Content-Type: multipart/form-data' \
-            -F "data=@test.jpeg;batch_size=1;workload=image_classification" \
+            -F "data=@test.jpeg" \
+            -F "batch_size=1" \
+            -F "workload=image_classification" \
             $API_URL)
         end=$(($(date +%s%N)/1000000))
         runtime=$((end - start))
