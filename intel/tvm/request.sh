@@ -24,7 +24,7 @@ do
 
         start=$(($(date +%s%N)/1000000))
         response=$(curl -X POST -H 'Content-Type: application/json' \
-            -d '{"batch_size": 1, "workload": "image_classification" }' \
+            -d '{"batch_size": 1, "workload": "image_classification", "arch_type": "llvm -mcpu=core-avx2" }' \
             $API_URL)
         end=$(($(date +%s%N)/1000000))
         runtime=$((end - start))
