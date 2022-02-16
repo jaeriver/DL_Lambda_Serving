@@ -39,11 +39,12 @@ def make_dataset(multipart_data, workload, framework):
         binary_content = []
         for part in multipart_data.parts:
             binary_content.append(part.content)
+        print(binary_content)
         img = BytesIO(binary_content[0])
         img = Image.open(img)
         img = img.resize((224,224), Image.ANTIALIAS)
         img = np.array(img)
-        img = img.reshape(batch_size, img.shape[0], img.shape[1], img.shape[2])
+        img = img.reshape(batch_size, channel, image_size, image_size)
         data = mx.nd.array(img, ctx=ctx)
 
         return data
