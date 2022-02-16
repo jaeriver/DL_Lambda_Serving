@@ -2,6 +2,7 @@ numpy
 decorator
 attrs
 tornado
+xgboost
 psutil
 cloudpickle
 boto3
