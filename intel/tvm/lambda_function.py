@@ -34,7 +34,7 @@ loaded_lib = tvm.runtime.load_module(model_path)
 module = runtime.GraphModule(loaded_lib["default"](ctx))
 load_time = time.time() - load_start
 
-def make_dataset(batch_size, workload, framework):
+def make_dataset(multipart_data, workload, framework):
     if workload == "image_classification":
         binary_content = []
         for part in multipart_data.parts:
