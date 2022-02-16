@@ -7,11 +7,14 @@ import numpy as np
 import os
 import io
 import base64
-from requests_toolbelt.multipart import decoder
+from PIL import Image
 
 ctx = mx.cpu()
 
 model_name = os.environ['model_name']
+batch_size = 1
+workload = os.environ['workload']
+
 efs_path = '/mnt/efs/'
 model_path = efs_path + f'mxnet/base/{model_name}'
 
@@ -30,15 +33,19 @@ model_json, model_params = model_path + '/model.json', model_path + '/model.para
 model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
 load_time = time.time() - load_start
 
-def make_dataset(batch_size, workload, framework):
+def make_dataset(multipart_data, workload, framework):
     if workload == "image_classification":
-        image_shape = image_classification_shape_type[framework]
-        data_shape = (batch_size,) + image_shape
+        binary_content = []
+        for part in multipart_data.parts:
+            binary_content.append(part.content)
+        img = BytesIO(binary_content[0])
+        img = Image.open(img)
+        img = img.resize((224,224), Image.ANTIALIAS)
+        img = np.array(img)
+        img = img.reshape(batch_size, img.shape[0], img.shape[1], img.shape[2])
+        data = mx.nd.array(img, ctx=ctx)
 
-        data = np.random.uniform(size=data_shape)
-        data = mx.nd.array(data, ctx=ctx)
-
-        return data, image_shape
+        return data
     # case bert
     else:
         seq_length = 128
@@ -57,26 +64,20 @@ def make_dataset(batch_size, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
-    print(event)
-    multipart_string = event['body-json']
-    print(multipart_string)
-    content_type = event['params']['header']['content-type']
-    event = []
-    for part in decoder.MultipartDecoder(multipart_string, content_type).parts:
-        print(part.text)
-        event.append(part.text)
-    print(event)
-    batch_size = event['batch_size']
-    workload = event['workload']
-    data = event['data']
-    print('test')
+    
+    body = event['body-json']
+    body = base64.b64decode(body)
+    boundary = body.split(b'\r\n')[0]
+    boundary = boundary.decode('utf-8')
+    content_type = f"multipart/form-data; boundary={boundary}"
+    multipart_data = decoder.MultipartDecoder(body, content_type)
+    
     framework = 'mxnet'
     if workload == "image_classification":
-        data, image_shape = make_dataset(batch_size, workload, framework)
-        input_name = "data"
+        data = make_dataset(multipart_data, workload, framework)
     #case bert
-    else:
-        data, token_types, valid_length = make_dataset(batch_size, workload, framework)
+#     else:
+#         data, token_types, valid_length = make_dataset(batch_size, workload, framework)
 
     start_time = time.time()
     model(data)
