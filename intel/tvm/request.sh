@@ -14,17 +14,17 @@ do
     do
         aws lambda update-function-configuration \
             --function-name $function_name \
-            --environment Variables="{model_name=$m}" \
+            --environment Variables="{model_name=$m, workload=image_classification}" \
             --memory-size $mem
         sleep 60
         
-        SET=$(seq 0 4)
+        SET=$(seq 1 5)
         for i in $SET
         do
 
         start=$(($(date +%s%N)/1000000))
-        response=$(curl -X POST -H 'Content-Type: application/json' \
-            -d '{"batch_size": 1, "workload": "image_classification", "arch_type": "llvm -mcpu=core-avx2" }' \
+        response=$(curl -X POST -H 'Content-Type: multipart/form-data' \
+            -F "data=@test$i.jpeg" \
             $API_URL)
         end=$(($(date +%s%N)/1000000))
         runtime=$((end - start))
