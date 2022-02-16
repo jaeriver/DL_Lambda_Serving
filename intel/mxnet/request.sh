@@ -18,7 +18,7 @@ do
             --memory-size $mem
         sleep 60
         
-        SET=$(seq 0 4)
+        SET=$(seq 1 5)
         for i in $SET
         do
 
