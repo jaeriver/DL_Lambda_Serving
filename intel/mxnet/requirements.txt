@@ -4,3 +4,4 @@ pytest
 python-dotenv
 mxnet
 Pillow
+requests_toolbelt
