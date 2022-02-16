@@ -59,6 +59,7 @@ def lambda_handler(event, context):
     handler_start = time.time()
     print(event)
     multipart_string = event['body-json']
+    print(multipart_string)
     content_type = event['content_type']
     event = []
     for part in decoder.MultipartDecoder(multipart_string, content_type).parts:
@@ -68,7 +69,7 @@ def lambda_handler(event, context):
     batch_size = event['batch_size']
     workload = event['workload']
     data = event['data']
-    print(data)
+    print('test')
     framework = 'mxnet'
     if workload == "image_classification":
         data, image_shape = make_dataset(batch_size, workload, framework)
