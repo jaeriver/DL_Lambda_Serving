@@ -8,6 +8,7 @@ import os
 import io
 import base64
 from PIL import Image
+from requests_toolbelt.multipart import decoder
 
 ctx = mx.cpu()
 
