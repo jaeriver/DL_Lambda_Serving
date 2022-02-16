@@ -6,8 +6,15 @@ from tvm.contrib import graph_executor
 from tvm.contrib import graph_runtime
 import tvm.contrib.graph_executor as runtime
 import os
+from io import BytesIO
+import base64
+from PIL import Image
+from requests_toolbelt.multipart import decoder
 
 model_name = os.environ['model_name']
+batch_size = 1
+workload = os.environ['workload']
+
 efs_path = '/mnt/efs/'
 model_path = efs_path + f'mxnet/tvm/intel/{model_name}'
 
@@ -29,12 +36,18 @@ load_time = time.time() - load_start
 
 def make_dataset(batch_size, workload, framework):
     if workload == "image_classification":
-        image_shape = image_classification_shape_type[framework]
-        data_shape = (batch_size,) + image_shape
-
-        data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
-
-        return data, image_shape
+        binary_content = []
+        for part in multipart_data.parts:
+            binary_content.append(part.content)
+        print(binary_content)
+        img = BytesIO(binary_content[0])
+        print(img)
+        img = Image.open(img)
+        img = img.resize((224,224), Image.ANTIALIAS)
+        img = np.array(img)
+        data = img.reshape(batch_size, channel, image_size, image_size)
+        
+        return data
     # case bert
     else:
         seq_length = 128
@@ -59,14 +72,14 @@ def lambda_handler(event, context):
     workload = event['workload']
     arch_type = event['arch_type']
     framework = 'mxnet'   
-    
+    arch_type = 'llvm -mcpu=core-avx2' 
     if arch_type == 'arm':
         target = tvm.target.arm_cpu()
     else:
         target = arch_type
     
     if workload == "image_classification":
-        data, image_shape = make_dataset(batch_size, workload, framework)
+        data = make_dataset(multipart_data, workload, framework)
         input_name = "data"
         module.set_input(input_name, data)
     #case bert
