@@ -5,7 +5,7 @@ import mxnet.ndarray as nd
 from mxnet import nd, gluon
 import numpy as np
 import os
-import io
+from io import BytesIO
 import base64
 from PIL import Image
 from requests_toolbelt.multipart import decoder
