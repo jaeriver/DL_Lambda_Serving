@@ -3,3 +3,5 @@ boto3
 pytest
 python-dotenv
 onnxruntime
+requests_toolbelt
+Pillow
