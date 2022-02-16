@@ -39,8 +39,7 @@ def make_dataset(multipart_data, workload, framework):
         img = Image.open(img)
         img = img.resize((224,224), Image.ANTIALIAS)
         img = np.array(img)
-        img = img.reshape(batch_size, channel, image_size, image_size)
-        data = mx.nd.array(img, ctx=ctx)
+        data = img.reshape(batch_size, channel, image_size, image_size)
 
         return data
     # case bert
