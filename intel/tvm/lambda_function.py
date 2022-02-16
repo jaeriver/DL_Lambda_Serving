@@ -70,10 +70,7 @@ def make_dataset(batch_size, workload, framework):
 def lambda_handler(event, context):
     handler_start = time.time()
     event = event['body-json']
-    batch_size = event['batch_size']
     compiler = 'tvm'
-    workload = event['workload']
-    arch_type = event['arch_type']
     framework = 'mxnet'   
     arch_type = 'llvm -mcpu=core-avx2' 
     if arch_type == 'arm':
