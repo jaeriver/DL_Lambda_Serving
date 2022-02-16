@@ -57,7 +57,12 @@ def make_dataset(batch_size, workload, framework):
 def lambda_handler(event, context):
     handler_start = time.time()
     print(event)
-    event = io.BytesIO(base64.b64decode(event['body-json']))
+    multipart_string = event['body-json']
+    content_type = event['content_type']
+    event = []
+    for part in decoder.MultipartDecoder(multipart_string, content_type).parts:
+        print(part.text)
+        event.append(part.text)
     print(event)
     batch_size = event['batch_size']
     workload = event['workload']
