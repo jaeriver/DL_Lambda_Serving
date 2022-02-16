@@ -43,7 +43,10 @@ def make_dataset(batch_size, workload, framework):
         img = BytesIO(binary_content[0])
         print(img)
         img = Image.open(img)
-        img = img.resize((224,224), Image.ANTIALIAS)
+        if model_name == "inception_v3":
+            img = img.resize((299,299), Image.ANTIALIAS)
+        else:
+            img = img.resize((224,224), Image.ANTIALIAS)
         img = np.array(img)
         data = img.reshape(batch_size, channel, image_size, image_size)
         
