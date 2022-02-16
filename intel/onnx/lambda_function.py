@@ -2,8 +2,15 @@ import time
 import numpy as np
 import onnxruntime as ort
 import os
+from io import BytesIO
+import base64
+from PIL import Image
+from requests_toolbelt.multipart import decoder
 
 model_name = os.environ['model_name']
+batch_size = 1
+workload = os.environ['workload']
+
 efs_path = '/mnt/efs/'
 model_path = efs_path + f'mxnet/onnx/{model_name}'
 
@@ -21,14 +28,21 @@ session = ort.InferenceSession(model_path)
 session.get_modelmeta()
 load_time = time.time() - load_start
 
-def make_dataset(batch_size, workload, framework):
+def make_dataset(multipart_data, workload, framework):
     if workload == "image_classification":
-        image_shape = image_classification_shape_type[framework]
-        data_shape = (batch_size,) + image_shape
+        binary_content = []
+        for part in multipart_data.parts:
+            binary_content.append(part.content)
+        print(binary_content)
+        img = BytesIO(binary_content[0])
+        print(img)
+        img = Image.open(img)
+        img = img.resize((224,224), Image.ANTIALIAS)
+        img = np.array(img)
+        img = img.reshape(batch_size, channel, image_size, image_size)
+        data = mx.nd.array(img, ctx=ctx)
 
-        data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
-
-        return data, image_shape
+        return data
     # case bert
     else:
         seq_length = 128
@@ -47,16 +61,20 @@ def make_dataset(batch_size, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
-    event = event['body-json']
-    batch_size = event['batch_size']
-    workload = event['workload']
+    
+    body = event['body-json']
+    body = base64.b64decode(body)
+    boundary = body.split(b'\r\n')[0]
+    boundary = boundary.decode('utf-8')
+    content_type = f"multipart/form-data; boundary={boundary}"
+    multipart_data = decoder.MultipartDecoder(body, content_type)
+    
     framework = 'mxnet'
     
     inname = [input.name for input in session.get_inputs()]
     outname = [output.name for output in session.get_outputs()]
     if workload == "image_classification":
-        data, image_shape = make_dataset(batch_size, workload, framework)
-        input_name = "data"
+        data = make_dataset(multipart_data, workload, framework)
     #case bert
     else:
         data, token_types, valid_length = make_dataset(batch_size, workload, framework)
