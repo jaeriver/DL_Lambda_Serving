@@ -60,7 +60,7 @@ def lambda_handler(event, context):
     print(event)
     multipart_string = event['body-json']
     print(multipart_string)
-    content_type = event['content_type']
+    content_type = event['params']['header']['content-type']
     event = []
     for part in decoder.MultipartDecoder(multipart_string, content_type).parts:
         print(part.text)
