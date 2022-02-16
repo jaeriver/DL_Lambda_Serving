@@ -3,4 +3,4 @@ boto3
 pytest
 python-dotenv
 mxnet
-requests-toolbelt
+Pillow
