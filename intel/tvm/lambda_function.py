@@ -69,7 +69,12 @@ def make_dataset(batch_size, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
-    event = event['body-json']
+    body = event['body-json']
+    body = base64.b64decode(body)
+    boundary = body.split(b'\r\n')[0]
+    boundary = boundary.decode('utf-8')
+    content_type = f"multipart/form-data; boundary={boundary}"
+    multipart_data = decoder.MultipartDecoder(body, content_type)
     compiler = 'tvm'
     framework = 'mxnet'   
     arch_type = 'llvm -mcpu=core-avx2' 
