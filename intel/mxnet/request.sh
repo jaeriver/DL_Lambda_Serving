@@ -23,7 +23,7 @@ do
         do
 
         start=$(($(date +%s%N)/1000000))
-        response=$(curl -v -H 'Content-Type: multipart/form-data' \
+        response=$(curl -X POST -H 'Content-Type: multipart/form-data' \
             -F "data=@test.jpeg;type=application/json" \
             -F "batch_size=1;type=application/json" \
             -F "workload=image_classification;type=application/json" \
