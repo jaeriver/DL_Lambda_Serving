@@ -7,7 +7,7 @@ models="mobilenet.onnx mobilenet_v2.onnx inception_v3.onnx resnet50.onnx alexnet
 models="vgg19.onnx vgg16.onnx alexnet.onnx resnet50.onnx inception_v3.onnx mobilenet_v2.onnx mobilenet.onnx"
 memorys="512 1024 2048 4096 8192"
 
-echo "lambda_memory,model_name,hardware,framework,total_time,lambda_time,load_time" >> $framework'.csv'
+echo "lambda_memory,model_name,hardware,framework,total_time,load_time,lambda_time" >> $framework'.csv'
 for mem in $memorys
 do
     for m in $models
@@ -18,7 +18,7 @@ do
             --memory-size $mem
         sleep 60
         
-        SET=$(seq 1 5)
+        SET=$(seq 1 20)
         for i in $SET
         do
 
