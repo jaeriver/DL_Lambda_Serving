@@ -48,7 +48,7 @@ def make_dataset(multipart_data, workload, framework):
             img = img.resize((299,299), Image.ANTIALIAS)
         else:
             img = img.resize((224,224), Image.ANTIALIAS)
-        img = np.array(img)
+        img = np.array(img).astype('float32')
         data = img.reshape(batch_size, channel, image_size, image_size)
         
         return data
