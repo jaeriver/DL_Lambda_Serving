@@ -43,8 +43,7 @@ def make_dataset(multipart_data, workload, framework):
         img = BytesIO(binary_content[0])
         print(img)
         img = Image.open(img)
-        if model_name == "inception_v3":
-            img.crop_pad((299, 299))
+        if "inception_v3" in model_name:
             img = img.resize((299,299), Image.ANTIALIAS)
         else:
             img = img.resize((224,224), Image.ANTIALIAS)
