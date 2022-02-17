@@ -3,9 +3,8 @@ framework="onnx"
 API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/"$framework
 function_name='jg-'$framework'-serving'
 
-models="mobilenet.onnx mobilenet_v2.onnx inception_v3.onnx resnet50.onnx alexnet.onnx vgg16.onnx vgg19.onnx"
-models="vgg19.onnx vgg16.onnx alexnet.onnx resnet50.onnx inception_v3.onnx mobilenet_v2.onnx mobilenet.onnx"
-memorys="512 1024 2048 4096 8192"
+models="inception_v3.onnxx"
+memorys="2048 4096 8192"
 
 echo "lambda_memory,model_name,hardware,framework,total_time,lambda_time,load_time" >> $framework'.csv'
 for mem in $memorys
