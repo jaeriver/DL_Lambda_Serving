@@ -3,7 +3,7 @@ framework="onnx"
 API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/"$framework
 function_name='jg-'$framework'-serving'
 
-models="inception_v3.onnxx"
+models="inception_v3.onnx"
 memorys="2048 4096 8192"
 
 echo "lambda_memory,model_name,hardware,framework,total_time,lambda_time,load_time" >> $framework'.csv'
