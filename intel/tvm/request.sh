@@ -4,7 +4,6 @@ API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/"$framewo
 function_name='jg-'$framework'-serving'
 
 models="mobilenet_1.tar mobilenet_v2_1.tar inception_v3_1.tar resnet50_1.tar alexnet_1.tar vgg16_1.tar vgg19_1.tar"
-models="vgg19_1.tar vgg16_1.tar alexnet_1.tar resnet50_1.tar inception_v3_1.tar mobilenet_v2_1.tar mobilenet_1.tar"
 memorys="512 1024 2048 4096 8192"
 
 echo "lambda_memory,model_name,hardware,framework,total_time,load_time,lambda_time" >> $framework'.csv'
