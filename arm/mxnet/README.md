@@ -1,6 +1,6 @@
 ### Push docker image to AWS ECR
 ```
-export IMAGE_NAME="mxnet_lambda_container"
+export IMAGE_NAME="mxnet_lambda_container_arm"
 
 docker build -t $IMAGE_NAME . --no-cache
 
