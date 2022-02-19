@@ -101,7 +101,7 @@ class TempDirectory(object):
         if custom_path:
             # check isdir before create dir
             if os.path.isdir(custom_path):
-                os.rmdir(custom_path)
+                shutil.rmtree(custom_path, ignore_errors=True)
             os.mkdir(custom_path)
             self.temp_dir = custom_path
         else:
