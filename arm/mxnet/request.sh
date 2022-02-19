@@ -14,7 +14,7 @@ do
     do
         aws lambda update-function-configuration \
             --function-name $function_name \
-            --environment Variables="{model_name=$m, workload=image_classification}" \
+            --environment Variables="{model_name=$m, workload=image_classification, LD_LIBRARY_PATH=/opt/arm/armpl_21.1_gcc-8.2/lib}" \
             --memory-size $mem
         sleep 60
         
