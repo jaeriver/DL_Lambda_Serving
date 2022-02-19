@@ -1,0 +1,7 @@
+numpy
+boto3
+pytest
+python-dotenv
+mxnet
+Pillow
+requests_toolbelt
