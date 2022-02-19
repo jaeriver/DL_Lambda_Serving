@@ -100,8 +100,9 @@ class TempDirectory(object):
         self._created_with_keep_for_debug = self._KEEP_FOR_DEBUG
         if custom_path:
             # check isdir before create dir
-            if !os.path.isdir(custom_path):
-                os.mkdir(custom_path)
+            if os.path.isdir(custom_path):
+                shutil.rmtree(custom_path, ignore_errors=True)
+            os.mkdir(custom_path)
             self.temp_dir = custom_path
         else:
             if self._created_with_keep_for_debug:

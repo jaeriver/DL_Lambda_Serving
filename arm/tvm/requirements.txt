@@ -2,11 +2,13 @@ numpy
 decorator
 attrs
 tornado
-psutil
 xgboost
+psutil
 cloudpickle
 boto3
 pytest
 python-dotenv
 onnx
 protobuf
+Pillow
+requests_toolbelt

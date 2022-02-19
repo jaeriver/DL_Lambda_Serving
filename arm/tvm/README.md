@@ -1,6 +1,6 @@
 ### Push docker image to AWS ECR
 ```
-export IMAGE_NAME="tvm_lambda_container_arm"
+export IMAGE_NAME="tvm_lambda_container"
 
 docker build -t $IMAGE_NAME . --no-cache
 
