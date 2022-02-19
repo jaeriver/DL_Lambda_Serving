@@ -1,7 +1,7 @@
 framework="tvm"
 
-API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/"$framework
-function_name='jg-'$framework'-serving'
+API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/"$framework"-arm"
+function_name='jg-'$framework'-serving-arm'
 
 models="mobilenet_1.tar mobilenet_v2_1.tar inception_v3_1.tar resnet50_1.tar alexnet_1.tar vgg16_1.tar vgg19_1.tar"
 memorys="512 1024 2048 4096 8192"
