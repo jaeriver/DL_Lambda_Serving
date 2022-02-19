@@ -1,4 +1,4 @@
-docker build -t tvm_lambda_container . --no-cache
+docker build -t tvm_lambda_container_arm . --no-cache
 
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 
