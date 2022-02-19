@@ -16,7 +16,7 @@ batch_size = 1
 workload = os.environ['workload']
 
 efs_path = '/mnt/efs/'
-model_path = efs_path + f'mxnet/tvm/intel/{model_name}'
+model_path = efs_path + f'mxnet/tvm/arm/{model_name}'
 
 image_size = 224
 if "inception_v3" in model_name:
@@ -77,7 +77,7 @@ def lambda_handler(event, context):
     multipart_data = decoder.MultipartDecoder(body, content_type)
     compiler = 'tvm'
     framework = 'mxnet'   
-    arch_type = 'llvm -mcpu=core-avx2' 
+    arch_type = 'arm' 
     if arch_type == 'arm':
         target = tvm.target.arm_cpu()
     else:
