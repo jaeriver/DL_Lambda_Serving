@@ -1,6 +1,6 @@
 framework="mxnet"
 
-API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/"$framework
+API_URL="https://jbu3pcymu6.execute-api.us-west-2.amazonaws.com/stage1/"$framework"-arm"
 function_name='jg-'$framework'-serving-arm'
 
 models="mobilenet mobilenet_v2 inception_v3 resnet50 alexnet vgg16 vgg19"
