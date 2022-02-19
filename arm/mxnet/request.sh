@@ -29,7 +29,7 @@ do
         end=$(($(date +%s%N)/1000000))
         runtime=$((end - start))
         
-        echo $mem, $m, "intel", $framework, $((runtime / 1000)).$((runtime % 1000)), $response >> $framework'.csv'
+        echo $mem, $m, "arm", $framework, $((runtime / 1000)).$((runtime % 1000)), $response >> $framework'.csv'
         done
     done
 done
