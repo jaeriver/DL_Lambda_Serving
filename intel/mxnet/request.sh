@@ -16,9 +16,9 @@ do
             --function-name $function_name \
             --environment Variables="{model_name=$m, workload=image_classification}" \
             --memory-size $mem
-        sleep 60
+        sleep 900
         
-        SET=$(seq 1 20)
+        SET=$(seq 1 100)
         for i in $SET
         do
 
