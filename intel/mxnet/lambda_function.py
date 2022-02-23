@@ -58,6 +58,7 @@ def make_dataset(multipart_data, workload, framework):
     # case bert
     else:
         binary_content = []
+        print('multipart_data: ', multipart_data)
         for part in multipart_data.parts:
             binary_content.append(part.content)
         inputs = np.array(binary_content[0])
