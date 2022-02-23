@@ -81,7 +81,7 @@ def lambda_handler(event, context):
     body = event['body-json']
     body = base64.b64decode(body)
     boundary = body.split(b'\r\n')[0]
-    print('body_splited',body.split(b'\r\n')
+    print('body_splited',body.split(b'\r\n'))
     boundary = boundary.decode('utf-8')
     content_type = f"multipart/form-data; boundary={boundary}"
     multipart_data = decoder.MultipartDecoder(body, content_type)
