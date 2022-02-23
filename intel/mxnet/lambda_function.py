@@ -67,12 +67,6 @@ def make_dataset(multipart_data, workload, framework):
         valid_length = np.array(binary_content[2])
         print(valid_length)
         
-        seq_length = 128
-        dtype = "float32"
-        inputs = np.random.randint(0, 2000, size=(batch_size, seq_length)).astype(dtype)
-        token_types = np.random.uniform(size=(batch_size, seq_length)).astype(dtype)
-        valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
-        
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
         token_types_nd = mx.nd.array(token_types, ctx=ctx)
         valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
