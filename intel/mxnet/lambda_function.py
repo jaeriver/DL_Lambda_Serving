@@ -64,11 +64,12 @@ def make_dataset(multipart_data, workload, framework):
         binary_content = []
         for part in multipart_data.parts:
             binary_content.append(part.content)
-        inputs = np.array(BytesIO(binary_content[0]))
+        inputs = np.array(binary_content[0])
         print(inputs)
-        token_types = np.array(BytesIO(binary_content[1]))
+        token_types = np.array(binary_content[1])
         print(token_types)
-        valid_length = np.array(BytesIO(binary_content[2]))
+        valid_length = np.array(binary_content[2])
+        print(valid_length)
         
         seq_length = 128
         dtype = "float32"
