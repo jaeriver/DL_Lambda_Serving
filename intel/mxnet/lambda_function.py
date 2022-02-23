@@ -61,7 +61,7 @@ def make_dataset(multipart_data, workload, framework):
         print('multipart_data: ', multipart_data)
         for part in multipart_data.parts:
             binary_content.append(part.content)
-        print(binary_content)
+        print(binary_content.split)
         inputs = np.array(BytesIO(binary_content[0]))
         print(inputs)
         token_types = np.array(BytesIO(binary_content[1]))
@@ -81,8 +81,8 @@ def lambda_handler(event, context):
     
     body = event['body-json']
     body = base64.b64decode(body)
-    print(body)
     boundary = body.split(b'\r\n')[0]
+    print('body_splited',body)
     boundary = boundary.decode('utf-8')
     content_type = f"multipart/form-data; boundary={boundary}"
     multipart_data = decoder.MultipartDecoder(body, content_type)
