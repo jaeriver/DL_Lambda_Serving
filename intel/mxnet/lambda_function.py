@@ -61,6 +61,7 @@ def make_dataset(multipart_data, workload, framework):
         print('multipart_data: ', multipart_data)
         for part in multipart_data.parts:
             binary_content.append(part.content)
+        print(binary_content)
         inputs = np.array(BytesIO(binary_content[0]))
         print(inputs)
         token_types = np.array(BytesIO(binary_content[1]))
