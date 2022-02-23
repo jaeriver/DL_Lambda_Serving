@@ -32,9 +32,9 @@ image_classification_shape_type = {
 load_start = time.time()
 model_json, model_params = model_path + '/model.json', model_path + '/model.params'
 if "bert_base" in model_name:
-    model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1','data2'], model_params, ctx=ctx)
+    model = gluon.nn.SymbolBlock.imports(model_json, ['data','token_types','valid_length'] , model_params, ctx=ctx)
 elif "distilbert" in model_name:
-    model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1'], model_params, ctx=ctx)
+    model = gluon.nn.SymbolBlock.imports(model_json, ['data','valid_length'], model_params, ctx=ctx)
 else:
     model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
 load_time = time.time() - load_start
