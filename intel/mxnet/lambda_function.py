@@ -77,7 +77,7 @@ def make_dataset(multipart_data, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
-    
+    print(event)
     body = event['body-json']
     body = base64.b64decode(body)
     boundary = body.split(b'\r\n')[0]
