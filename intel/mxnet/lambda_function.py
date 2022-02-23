@@ -77,20 +77,20 @@ def make_dataset(multipart_data, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
-    print(event)
+    
     body = event['body-json']
     body = base64.b64decode(body)
     boundary = body.split(b'\r\n')[0]
     boundary = boundary.decode('utf-8')
     content_type = f"multipart/form-data; boundary={boundary}"
     multipart_data = decoder.MultipartDecoder(body, content_type)
-    
     framework = 'mxnet'
+
     if workload == "image_classification":
         data = make_dataset(multipart_data, workload, framework)
     #case bert
     else:
-        data, token_types, valid_length = make_dataset(batch_size, workload, framework)
+        data, token_types, valid_length = make_dataset(multipart_data, workload, framework)
 
     start_time = time.time()
     if workload == "image_classification":
