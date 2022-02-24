@@ -64,7 +64,7 @@ def make_dataset(multipart_data, workload, framework):
         for part in multipart_data.parts:
             binary_content.append(part.content)
         print(binary_content)
-        d = float(binary_content.split('\n\r')[0])
+        d = binary_content.split('\n\r')[0].astype('float32')
         print(d)
         inputs = np.array(binary_content[0])
         print(inputs)
