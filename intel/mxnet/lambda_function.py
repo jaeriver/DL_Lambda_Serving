@@ -65,15 +65,15 @@ def make_dataset(multipart_data, workload, framework):
             binary_content.append(part.content)
         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
         inputs = np.array([d.split(" ")]).astype('float32')
-        print(inputs)
-        print(inputs.ndim)
         seq_length = 128
         valid_length = np.asarray([seq_length] * batch_size).astype('float32')
-        print(valid_length)
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
         token_types_nd = mx.nd.array(inputs, ctx=ctx)
         valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
         
+        print(inputs_nd)
+        print(token_types_nd)
+        print(valid_length_nd)
         return inputs_nd, token_types_nd, valid_length_nd
 
 
