@@ -99,8 +99,10 @@ def lambda_handler(event, context):
     if workload == "image_classification":
         model(data)
     elif "bert_base" in model_name:
+        model.hybridize(static_alloc=True)
         model(data, token_types, valid_length)
     else:
+        model.hybridize(static_alloc=True)
         model(data, valid_length)
     running_time = time.time() - start_time
     print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
