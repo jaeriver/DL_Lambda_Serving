@@ -64,7 +64,7 @@ def make_dataset(multipart_data, workload, framework):
         for part in multipart_data.parts:
             binary_content.append(part.content)
         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
-        inputs = np.array(d.split(" ")).astype('float32')
+        inputs = np.array([d.split(" ")]).astype('float32')
         print(inputs)
         print(inputs.ndim)
         seq_length = 128
