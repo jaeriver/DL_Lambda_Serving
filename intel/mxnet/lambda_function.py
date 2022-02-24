@@ -64,7 +64,9 @@ def make_dataset(multipart_data, workload, framework):
         for part in multipart_data.parts:
             binary_content.append(part.content)
         print(binary_content)
-        inputs = np.array(BytesIO(binary_content[0]))
+        d = float(binary_content.split('\n\r')[0])
+        print(d)
+        inputs = np.array(binary_content[0])
         print(inputs)
         valid_length = 128
         valid_length = np.array(valid_length)
