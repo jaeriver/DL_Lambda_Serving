@@ -66,6 +66,7 @@ def make_dataset(multipart_data, workload, framework):
         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
         inputs = np.array([d.split(" ")]).astype('float32')
         seq_length = 128
+        dtype = 'float32'
         inputs = np.random.randint(0, 2000, size=(batch_size, seq_length)).astype(dtype)
         token_types = np.random.uniform(size=(batch_size, seq_length)).astype(dtype)
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
