@@ -35,6 +35,8 @@ if "bert_base" in model_name:
     model = gluon.nn.SymbolBlock.imports(model_json, ['data','token_types','valid_length'] , model_params, ctx=ctx)
 elif "distilbert" in model_name:
     model = gluon.nn.SymbolBlock.imports(model_json, ['data','valid_length'], model_params, ctx=ctx)
+elif "lstm" in model_name:
+    model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1'], model_params, ctx=ctx)
 else:
     model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
 load_time = time.time() - load_start
@@ -61,15 +63,13 @@ def make_dataset(multipart_data, workload, framework):
         print('multipart_data: ', multipart_data)
         for part in multipart_data.parts:
             binary_content.append(part.content)
+        print(binary_content)
         inputs = np.array(BytesIO(binary_content[0]))
         print(inputs)
-        token_types = np.array(BytesIO(binary_content[1]))
-        print(token_types)
-        valid_length = np.array(BytesIO(binary_content[2]))
-        print(valid_length)
-        
+        valid_length = 128
+        valid_length = np.array(valid_length)
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
-        token_types_nd = mx.nd.array(token_types, ctx=ctx)
+        token_types_nd = mx.nd.array(inputs, ctx=ctx)
         valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
         
         return inputs_nd, token_types_nd, valid_length_nd
