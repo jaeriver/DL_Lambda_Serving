@@ -63,14 +63,13 @@ def make_dataset(multipart_data, workload, framework):
         print('multipart_data: ', multipart_data)
         for part in multipart_data.parts:
             binary_content.append(part.content)
-        print(binary_content)
         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
-        print(d)
         inputs = np.array(d.split(" ")).astype('float32')
         print(inputs)
+        print(inputs.ndim)
         valid_length = [128]
         valid_length = np.array(valid_length).astype('float32')
-        
+        print(valid_length)
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
         token_types_nd = mx.nd.array(inputs, ctx=ctx)
         valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
