@@ -67,8 +67,8 @@ def make_dataset(multipart_data, workload, framework):
         inputs = np.array(d.split(" ")).astype('float32')
         print(inputs)
         print(inputs.ndim)
-        valid_length = [128]
-        valid_length = np.array(valid_length).astype('float32')
+        seq_length = 128
+        valid_length = np.asarray([seq_length] * batch_size).astype('float32')
         print(valid_length)
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
         token_types_nd = mx.nd.array(inputs, ctx=ctx)
