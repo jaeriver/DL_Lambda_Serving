@@ -35,7 +35,7 @@ model_json, model_params = model_path + '/model.json', model_path + '/model.para
 if "bert_base" in model_name:
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1','data2'] , model_params, ctx=ctx)
+        model = gluon.nn.SymbolBlock.imports(model_json, ['data','valid_length','token_types'] , model_params, ctx=ctx)
 elif "distilbert" in model_name:
     model = gluon.nn.SymbolBlock.imports(model_json, ['data','valid_length'], model_params, ctx=ctx)
 elif "lstm" in model_name:
