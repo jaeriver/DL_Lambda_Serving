@@ -1,4 +1,5 @@
 import time
+import warnings
 from json import load
 import mxnet as mx
 import mxnet.ndarray as nd
@@ -32,7 +33,9 @@ image_classification_shape_type = {
 load_start = time.time()
 model_json, model_params = model_path + '/model.json', model_path + '/model.params'
 if "bert_base" in model_name:
-    model = gluon.nn.SymbolBlock.imports(model_json, ['data','valid_length','token_types'] , model_params, ctx=ctx)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1','data2'] , model_params, ctx=ctx)
 elif "distilbert" in model_name:
     model = gluon.nn.SymbolBlock.imports(model_json, ['data','valid_length'], model_params, ctx=ctx)
 elif "lstm" in model_name:
@@ -64,13 +67,13 @@ def make_dataset(multipart_data, workload, framework):
         for part in multipart_data.parts:
             binary_content.append(part.content)
         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
-        inputs = np.array([d.split(" ")]).astype('float32')
+#         inputs = np.array([d.split(" ")]).astype('float32')
         seq_length = 128
         dtype = 'float32'
         inputs = np.random.randint(0, 2000, size=(batch_size, seq_length)).astype(dtype)
         token_types = np.random.uniform(size=(batch_size, seq_length)).astype(dtype)
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
-        valid_length = np.asarray([seq_length] * batch_size).astype('float32')
+  
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
         token_types_nd = mx.nd.array(token_types, ctx=ctx)
         valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
