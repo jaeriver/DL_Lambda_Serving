@@ -67,11 +67,9 @@ def make_dataset(multipart_data, workload, framework):
         for part in multipart_data.parts:
             binary_content.append(part.content)
         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
-#         inputs = np.array([d.split(" ")]).astype('float32')
+        inputs = np.array([d.split(" ")]).astype('float32')
         seq_length = 128
         dtype = 'float32'
-        inputs = np.random.randint(0, 2000, size=(batch_size, seq_length)).astype(dtype)
-        token_types = np.random.uniform(size=(batch_size, seq_length)).astype(dtype)
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
   
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
@@ -80,7 +78,7 @@ def make_dataset(multipart_data, workload, framework):
         
         print(inputs_nd)
         print(valid_length_nd)
-        return inputs_nd, token_types_nd, valid_length_nd
+        return inputs_nd, inputs_nd, valid_length_nd
 
 
 def lambda_handler(event, context):
