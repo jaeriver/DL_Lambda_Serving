@@ -102,7 +102,7 @@ def lambda_handler(event, context):
         model(data, valid_length, token_types)
     else:
         model.hybridize(static_alloc=True)
-        model(data, valid_length)
+        model(data, valid_length,)
     running_time = time.time() - start_time
     print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
     handler_time = time.time() - handler_start
