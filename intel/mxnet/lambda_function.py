@@ -106,7 +106,7 @@ def lambda_handler(event, context):
         model(data)
     elif "bert_base" in model_name:
         model.hybridize(static_alloc=True)
-        model(data, token_types, valid_length)
+        model(data, valid_length, token_types)
     else:
         model.hybridize(static_alloc=True)
         model(data, valid_length)
