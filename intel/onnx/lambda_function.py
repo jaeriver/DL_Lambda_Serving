@@ -46,18 +46,19 @@ def make_dataset(multipart_data, workload, framework):
         return data
     # case bert
     else:
+        binary_content = []
+        for part in multipart_data.parts:
+            binary_content.append(part.content)
+        d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
+        inputs = np.array([d.split(" ")]).astype('float32')
         seq_length = 128
-        shape_dict = {
-            "data0": (batch_size, seq_length),
-            "data1": (batch_size, seq_length),
-            "data2": (batch_size,),
-        }
-        dtype = "float32"
-        inputs = np.random.randint(0, 2000, size=(batch_size, seq_length)).astype(dtype)
-        token_types = np.random.uniform(size=(batch_size, seq_length)).astype(dtype)
+        dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
-        
-        return inputs, token_types, valid_length
+  
+        inputs_nd = mx.nd.array(inputs, ctx=ctx)
+#         token_types_nd = mx.nd.array(token_types, ctx=ctx)
+        valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
+        return inputs_nd, inputs_nd, valid_length_nd
 
 
 def lambda_handler(event, context):
@@ -83,8 +84,11 @@ def lambda_handler(event, context):
     if workload == "image_classification":
         session.run(outname, {inname[0]: data})
     # case : bert
-    else:
+    elif "bert_base" in model_name:
         session.run(outname, {inname[0]: data,inname[1]:token_types,inname[2]:valid_length})
+    else:
+        session.run(outname, {inname[0]: data,inname[1]:valid_length})
+        
     running_time = time.time() - start_time
     print(f"ONNX {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
     
