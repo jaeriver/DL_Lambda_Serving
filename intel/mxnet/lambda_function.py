@@ -73,11 +73,8 @@ def make_dataset(multipart_data, workload, framework):
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
   
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
-        token_types_nd = mx.nd.array(token_types, ctx=ctx)
+#         token_types_nd = mx.nd.array(token_types, ctx=ctx)
         valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
-        
-        print(inputs_nd)
-        print(valid_length_nd)
         return inputs_nd, inputs_nd, valid_length_nd
 
 
