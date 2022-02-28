@@ -58,6 +58,8 @@ def make_dataset(multipart_data, workload, framework):
             binary_content.append(part.content)
         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
         inputs = np.array([d.split(" ")]).astype('float32')
+        if "lstm" in model_name:
+            inputs = np.transpose(inputs)
         seq_length = 128
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
