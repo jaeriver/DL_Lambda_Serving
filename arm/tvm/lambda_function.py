@@ -63,11 +63,8 @@ def make_dataset(multipart_data, workload, framework):
         seq_length = 128
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
-  
-        inputs_nd = mx.nd.array(inputs, ctx=ctx)
-#         token_types_nd = mx.nd.array(token_types, ctx=ctx)
-        valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
-        return inputs_nd, inputs_nd, valid_length_nd
+
+        return inputs, inputs, valid_length
 
 
 def lambda_handler(event, context):
