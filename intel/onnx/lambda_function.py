@@ -55,8 +55,10 @@ def make_dataset(multipart_data, workload, framework):
         seq_length = 128
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
-  
-        return inputs, inputs, valid_length
+        token_start = time.time()
+        token_types = np.random.uniform(size=(batch_size, seq_length)).astype(dtype)
+        print('token time:', time.time() - token_start )
+        return inputs, token_types, valid_length
 
 
 def lambda_handler(event, context):
