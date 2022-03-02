@@ -92,10 +92,10 @@ def lambda_handler(event, context):
         module.set_input(input_name, data)
     #case bert
     elif "bert_base" in model_name:
-        data, token_types, valid_length = make_dataset(batch_size, workload, framework)
+        data, token_types, valid_length = make_dataset(multipart_data, workload, framework)
         module.set_input(data0=data, data1=token_types, data2=valid_length)
     else:
-        data, token_types, valid_length = make_dataset(batch_size, workload, framework)
+        data, token_types, valid_length = make_dataset(multipart_data, workload, framework)
         module.set_input(data0=data, data1=valid_length)
     
     start_time = time.time()
