@@ -78,13 +78,15 @@ def lambda_handler(event, context):
         data = make_dataset(multipart_data, workload, framework)
     #case bert
     else:
-        data, token_types, valid_length = make_dataset(batch_size, workload, framework)
+        data, token_types, valid_length = make_dataset(multipart_data, workload, framework)
     start_time = time.time()
     if workload == "image_classification":
         session.run(outname, {inname[0]: data})
     # case : bert
     elif "bert_base" in model_name:
         session.run(outname, {inname[0]: data,inname[1]:token_types,inname[2]:valid_length})
+    elif "lstm" in model_name:
+        session.run(
     else:
         session.run(outname, {inname[0]: data,inname[1]:valid_length})
         
