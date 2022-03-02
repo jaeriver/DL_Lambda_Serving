@@ -34,7 +34,6 @@ def make_dataset(multipart_data, workload, framework):
         for part in multipart_data.parts:
             binary_content.append(part.content)
         img = BytesIO(binary_content[0])
-        print(img)
         img = Image.open(img)
         if "inception_v3" in model_name:
             img = img.resize((299,299), Image.ANTIALIAS)
@@ -89,7 +88,5 @@ def lambda_handler(event, context):
         session.run(outname, {inname[0]: data,inname[1]:valid_length})
         
     running_time = time.time() - start_time
-    print(f"ONNX {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
-    
     handler_time = time.time() - handler_start
     return load_time, handler_time
