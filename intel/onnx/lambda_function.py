@@ -85,8 +85,6 @@ def lambda_handler(event, context):
     # case : bert
     elif "bert_base" in model_name:
         session.run(outname, {inname[0]: data,inname[1]:token_types,inname[2]:valid_length})
-    elif "lstm" in model_name:
-        session.run(
     else:
         session.run(outname, {inname[0]: data,inname[1]:valid_length})
         
