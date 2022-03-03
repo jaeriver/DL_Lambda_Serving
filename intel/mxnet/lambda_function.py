@@ -43,6 +43,7 @@ load_time = time.time() - load_start
 
 def make_dataset(multipart_data, workload, framework):
     if workload == "image_classification":
+        mx_start = time.time()
         binary_content = []
         for part in multipart_data.parts:
             binary_content.append(part.content)
@@ -56,6 +57,7 @@ def make_dataset(multipart_data, workload, framework):
         img = img.reshape(batch_size, channel, image_size, image_size)
         data = mx.nd.array(img, ctx=ctx)
 
+        print(time.time() - mx_start)
         return data
     # case bert
     else:
