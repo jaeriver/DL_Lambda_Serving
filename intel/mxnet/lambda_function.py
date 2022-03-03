@@ -59,6 +59,7 @@ def make_dataset(multipart_data, workload, framework):
         return data
     # case bert
     else:
+        mx_start = time.time()
         binary_content = []
         for part in multipart_data.parts:
             binary_content.append(part.content)
@@ -73,6 +74,7 @@ def make_dataset(multipart_data, workload, framework):
         inputs_nd = mx.nd.array(inputs, ctx=ctx)
 #         token_types_nd = mx.nd.array(token_types, ctx=ctx)
         valid_length_nd = mx.nd.array(valid_length, ctx=ctx)
+        print(time.time() - mx_start)
         return inputs_nd, inputs_nd, valid_length_nd
 
 
