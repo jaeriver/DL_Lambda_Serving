@@ -49,7 +49,7 @@ def make_dataset(multipart_data, workload, framework):
             img = img.resize((224,224), Image.ANTIALIAS)
         img = np.array(img).astype('float32')
         data = img.reshape(batch_size, channel, image_size, image_size)
-        data = tvm.nd.array(data)
+        data = tvm.nd.array(data, ctx)
         
         return data
     # case bert
@@ -64,8 +64,8 @@ def make_dataset(multipart_data, workload, framework):
         seq_length = 128
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
-        inputs = tvm.nd.array(inputs)
-        valid_length = tvm.nd.array(valid_length)
+        inputs = tvm.nd.array(inputs, ctx)
+        valid_length = tvm.nd.array(valid_length, ctx)
         return inputs, inputs, valid_length
 
 
