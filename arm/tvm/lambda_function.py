@@ -26,7 +26,7 @@ image_classification_shape_type = {
     "mxnet" : (channel, image_size, image_size),
     "tf" : (image_size, image_size, channel)
 }
-arch_type = 'arm' 
+arch_type = 'llvm -device=arm_cpu -mtriple=aarch64-linux-gnu' 
 if arch_type == 'arm':
     target = tvm.target.arm_cpu()
 else:
