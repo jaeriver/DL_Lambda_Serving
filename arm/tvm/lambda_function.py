@@ -49,6 +49,7 @@ def make_dataset(multipart_data, workload, framework):
             img = img.resize((224,224), Image.ANTIALIAS)
         img = np.array(img).astype('float32')
         data = img.reshape(batch_size, channel, image_size, image_size)
+        data = tvm.nd.array(data, ctx)
         
         return data
     # case bert
@@ -63,7 +64,9 @@ def make_dataset(multipart_data, workload, framework):
         seq_length = 128
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
-
+        
+        inputs = tvm.nd.array(inputs, ctx)
+        valid_length = tvm.nd.array(valid_length, ctx)
         return inputs, inputs, valid_length
 
 
@@ -84,7 +87,9 @@ def lambda_handler(event, context):
         target = arch_type
     
     if workload == "image_classification":
+        data_start = time.time()
         data = make_dataset(multipart_data, workload, framework)
+        print(time.time() - data_start)
         input_name = "data"
         module.set_input(input_name, data)
     #case bert
