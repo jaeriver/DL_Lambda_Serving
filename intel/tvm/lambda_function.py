@@ -27,7 +27,9 @@ image_classification_shape_type = {
     "tf" : (image_size, image_size, channel)
 }
 
-ctx = tvm.cpu()
+arch_type = 'llvm -mcpu=core-avx2' 
+# ctx = tvm.cpu()
+ctx = tvm.context(target, 0)
 
 load_start = time.time()
 loaded_lib = tvm.runtime.load_module(model_path)
@@ -79,7 +81,6 @@ def lambda_handler(event, context):
     multipart_data = decoder.MultipartDecoder(body, content_type)
     compiler = 'tvm'
     framework = 'mxnet'   
-    arch_type = 'llvm -mcpu=core-avx2' 
     if arch_type == 'arm':
         target = tvm.target.arm_cpu()
     else:
