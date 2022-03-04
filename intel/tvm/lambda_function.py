@@ -49,6 +49,7 @@ def make_dataset(multipart_data, workload, framework):
             img = img.resize((224,224), Image.ANTIALIAS)
         img = np.array(img).astype('float32')
         data = img.reshape(batch_size, channel, image_size, image_size)
+        data = tvm.nd.array(data)
         
         return data
     # case bert
