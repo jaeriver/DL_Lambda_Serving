@@ -29,7 +29,7 @@ image_classification_shape_type = {
 
 arch_type = 'llvm -mcpu=core-avx2' 
 # ctx = tvm.cpu()
-ctx = tvm.context(target, 0)
+ctx = tvm.device(target, 0)
 
 load_start = time.time()
 loaded_lib = tvm.runtime.load_module(model_path)
