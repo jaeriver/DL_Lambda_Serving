@@ -13,7 +13,7 @@ from requests_toolbelt.multipart import decoder
 ctx = mx.cpu()
 
 model_name = os.environ['model_name']
-batch_size = os.environ['batch_size']
+batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
 
 efs_path = '/mnt/efs/'
