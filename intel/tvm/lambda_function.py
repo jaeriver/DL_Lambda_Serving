@@ -56,7 +56,7 @@ def make_dataset(multipart_data, workload, framework):
             image_shape = (3, 299, 299)
         data_shape = (batch_size,) + image_shape
         img = np.random.uniform(-1, 1, size=data_shape).astype("float32")
-        data = tvm.nd.array(img, ctx=ctx)
+        data = tvm.nd.array(img, ctx)
 
         print(time.time() - mx_start)
         return data
@@ -69,13 +69,13 @@ def make_dataset(multipart_data, workload, framework):
 #         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
 #         inputs = np.array([d.split(" ")]).astype('float32')
         dtype = "float32"
+        seq_length = 128
         inputs = np.random.randint(0, 2000, size=(batch_size, seq_length)).astype(dtype)
         token_types = np.random.uniform(size=(batch_size, seq_length)).astype(dtype)
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
         if "lstm" in model_name:
             inputs = np.transpose(inputs)
             token_types = np.transpose(token_types)
-        seq_length = 128
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
   
