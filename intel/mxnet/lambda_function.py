@@ -91,14 +91,14 @@ def make_dataset(multipart_data, workload, framework):
 def lambda_handler(event, context):
     handler_start = time.time()
     
-    body = event['body-json']
-    body = base64.b64decode(body)
-    boundary = body.split(b'\r\n')[0]
-    boundary = boundary.decode('utf-8')
-    content_type = f"multipart/form-data; boundary={boundary}"
-    multipart_data = decoder.MultipartDecoder(body, content_type)
+#     body = event['body-json']
+#     body = base64.b64decode(body)
+#     boundary = body.split(b'\r\n')[0]
+#     boundary = boundary.decode('utf-8')
+#     content_type = f"multipart/form-data; boundary={boundary}"
+#     multipart_data = decoder.MultipartDecoder(body, content_type)
     framework = 'mxnet'
-
+    multipart_data = ""
     if workload == "image_classification":
         data = make_dataset(multipart_data, workload, framework)
     #case bert
