@@ -79,9 +79,9 @@ def make_dataset(multipart_data, workload, framework):
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
   
-        inputs_nd = tvm.nd.array(inputs, ctx=ctx)
-        token_types_nd = tvm.nd.array(token_types, ctx=ctx)
-        valid_length_nd = tvm.nd.array(valid_length, ctx=ctx)
+        inputs_nd = tvm.nd.array(inputs, ctx)
+        token_types_nd = tvm.nd.array(token_types, ctx)
+        valid_length_nd = tvm.nd.array(valid_length, ctx)
         print(time.time() - mx_start)
         return inputs_nd, token_types_nd, valid_length_nd
 
