@@ -46,10 +46,8 @@ def make_dataset(multipart_data, workload, framework):
             image_shape = (3, 299, 299)
         data_shape = (batch_size,) + image_shape
         img = np.random.uniform(-1, 1, size=data_shape).astype("float32")
-        data = mx.nd.array(img, ctx)
-
         print(time.time() - mx_start)
-        return data
+        return img
     # case bert
     else:
         mx_start = time.time()
@@ -69,9 +67,6 @@ def make_dataset(multipart_data, workload, framework):
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
   
-        inputs_nd = mx.nd.array(inputs, ctx)
-        token_types_nd = mx.nd.array(token_types, ctx)
-        valid_length_nd = mx.nd.array(valid_length, ctx)
         print(time.time() - mx_start)
         return inputs_nd, token_types_nd, valid_length_nd
 
@@ -103,6 +98,6 @@ def lambda_handler(event, context):
         model.hybridize(static_alloc=True)
         model(data, valid_length,)
     running_time = time.time() - start_time
-    print(f"MXNet {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
+    print(f"Torch {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
     handler_time = time.time() - handler_start
     return load_time, handler_time
