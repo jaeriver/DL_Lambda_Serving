@@ -101,7 +101,10 @@ def lambda_handler(event, context):
         data_start = time.time()
         data = make_dataset(multipart_data, workload, framework)
         print(time.time() - data_start)
-        input_name = "data"
+        input_name = "input0"
+        if "mxnet" in framework:
+            input_name = "data"
+        
         module.set_input(input_name, data)
     #case bert
     elif "bert_base" in model_name:
