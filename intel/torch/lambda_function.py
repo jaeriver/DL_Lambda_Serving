@@ -27,7 +27,8 @@ image_classification_shape_type = {
 }
 
 load_start = time.time()
-model = torch.load(model_path)
+model = model.load_state_dict(torch.load(model_path + '/model_state_dict.pt'))
+model.eval()
 load_time = time.time() - load_start
 
 def make_dataset(multipart_data, workload, framework):
