@@ -1,4 +1,4 @@
-export IMAGE_NAME="mxnet_lambda_container"
+export IMAGE_NAME="torch_lambda_container"
 
 docker build -t $IMAGE_NAME . --no-cache
 
