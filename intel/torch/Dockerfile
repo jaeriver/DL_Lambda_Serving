@@ -8,7 +8,7 @@ RUN mkdir -p /var/task/lib
 RUN cp /usr/lib64/atlas-sse3/liblapack.so.3 /var/task/lib/. & cp /usr/lib64/atlas-sse3/libptf77blas.so.3 /var/task/lib/. & cp /usr/lib64/atlas-sse3/libf77blas.so.3 /var/task/lib/. & cp /usr/lib64/atlas-sse3/libptcblas.so.3 /var/task/lib/. & cp /usr/lib64/atlas-sse3/libcblas.so.3 /var/task/lib/. & cp /usr/lib64/atlas-sse3/libatlas.so.3 /var/task/lib/. & cp /usr/lib64/atlas-sse3/libptf77blas.so.3 /var/task/lib/. & cp /usr/lib64/libgfortran.so.3 /var/task/lib/. & cp /usr/lib64/libquadmath.so.0 /var/task/lib/.
 # git clone
 RUN git clone https://github.com/jaeriver/DL_Lambda_Serving.git
-WORKDIR DL_Lambda_Serving/intel/mxnet
+WORKDIR DL_Lambda_Serving/intel/torch
 RUN pip3 install -r requirements.txt
 
 RUN cp lambda_function.py ${LAMBDA_TASK_ROOT}
