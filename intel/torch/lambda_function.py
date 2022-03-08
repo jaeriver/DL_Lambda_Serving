@@ -28,6 +28,7 @@ image_classification_shape_type = {
 
 load_start = time.time()
 model = torch.load(model_path + '/model.pt')
+model.load_state_dict(torch.load(model_path + '/model_state_dict.pt'))
 model.eval()
 load_time = time.time() - load_start
 
@@ -49,7 +50,8 @@ def make_dataset(multipart_data, workload, framework):
         data_shape = (batch_size,) + image_shape
         img = np.random.uniform(-1, 1, size=data_shape).astype("float32")
         print(time.time() - mx_start)
-        return img
+        data = torch.tensor(img)
+        return data
     # case bert
     else:
         mx_start = time.time()
@@ -68,7 +70,7 @@ def make_dataset(multipart_data, workload, framework):
             token_types = np.transpose(token_types)
         dtype = 'float32'
         valid_length = np.asarray([seq_length] * batch_size).astype(dtype)
-  
+        
         print(time.time() - mx_start)
         return inputs_nd, token_types_nd, valid_length_nd
 
