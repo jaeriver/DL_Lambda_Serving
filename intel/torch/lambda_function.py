@@ -1,16 +1,12 @@
 import time
 from json import load
-import mxnet as mx
-import mxnet.ndarray as nd
-from mxnet import nd, gluon
 import numpy as np
+import torch
 import os
 from io import BytesIO
 import base64
 from PIL import Image
 from requests_toolbelt.multipart import decoder
-
-ctx = mx.cpu()
 
 model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
@@ -30,15 +26,7 @@ image_classification_shape_type = {
 }
 
 load_start = time.time()
-model_json, model_params = model_path + '/model-symbol.json', model_path + '/model-0000.params'
-if "bert_base" in model_name:
-     model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1','data2'] , model_params, ctx=ctx)
-elif "distilbert" in model_name:
-    model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1'], model_params, ctx=ctx)
-elif "lstm" in model_name:
-    model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1'], model_params, ctx=ctx)
-else:
-    model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
+model = torch.load(model_path)
 load_time = time.time() - load_start
 
 def make_dataset(multipart_data, workload, framework):
@@ -97,7 +85,7 @@ def lambda_handler(event, context):
 #     boundary = boundary.decode('utf-8')
 #     content_type = f"multipart/form-data; boundary={boundary}"
 #     multipart_data = decoder.MultipartDecoder(body, content_type)
-    framework = 'mxnet'
+    framework = 'torch'
     multipart_data = ""
     if workload == "image_classification":
         data = make_dataset(multipart_data, workload, framework)
