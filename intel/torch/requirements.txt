@@ -2,6 +2,6 @@ numpy
 boto3
 pytest
 python-dotenv
-mxnet
+torch
 Pillow
 requests_toolbelt
