@@ -3,5 +3,6 @@ boto3
 pytest
 python-dotenv
 torch
+torchvision
 Pillow
 requests_toolbelt
