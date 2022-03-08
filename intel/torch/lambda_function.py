@@ -11,9 +11,10 @@ from requests_toolbelt.multipart import decoder
 model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
+framework = 'torch'
 
 efs_path = '/mnt/efs/'
-model_path = efs_path + f'mxnet/base/{model_name}'
+model_path = efs_path + f'{framework}/base/{model_name}'
 
 image_size = 224
 if model_name == "inception_v3":
@@ -80,7 +81,6 @@ def lambda_handler(event, context):
 #     boundary = boundary.decode('utf-8')
 #     content_type = f"multipart/form-data; boundary={boundary}"
 #     multipart_data = decoder.MultipartDecoder(body, content_type)
-    framework = 'torch'
     multipart_data = ""
     if workload == "image_classification":
         data = make_dataset(multipart_data, workload, framework)
