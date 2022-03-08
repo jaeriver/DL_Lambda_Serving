@@ -14,9 +14,10 @@ from requests_toolbelt.multipart import decoder
 model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
+framework = os.environ['framework']
 
 efs_path = '/mnt/efs/'
-model_path = efs_path + f'mxnet/tvm/arm/{model_name}'
+model_path = efs_path + f'{framework}/tvm/arm/{model_name}'
 
 image_size = 224
 if "inception_v3" in model_name:
@@ -93,7 +94,6 @@ def lambda_handler(event, context):
 #     content_type = f"multipart/form-data; boundary={boundary}"
 #     multipart_data = decoder.MultipartDecoder(body, content_type)
     compiler = 'tvm'
-    framework = 'mxnet'   
     multipart_data = ""
     
     if workload == "image_classification":
