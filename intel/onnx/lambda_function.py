@@ -25,7 +25,9 @@ image_classification_shape_type = {
 }
 
 load_start = time.time()
-session = ort.InferenceSession(model_path)
+sess_options = ort.SessionOptions()
+sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+session = ort.InferenceSession(model_path, sess_options)
 session.get_modelmeta()
 load_time = time.time() - load_start
 
