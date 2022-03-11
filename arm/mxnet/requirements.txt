@@ -3,5 +3,6 @@ boto3
 pytest
 python-dotenv
 mxnet
+mkl
 Pillow
 requests_toolbelt
