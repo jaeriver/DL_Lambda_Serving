@@ -16,8 +16,17 @@ batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
 framework = os.environ['framework']
 
+def load_model(model_name):
+
+    PATH = f"../base/{model_name}/"
+    model = torch.load(PATH + 'model.pt')  # 전체 모델을 통째로 불러옴, 클래스 선언 필수
+    model.load_state_dict(torch.load(PATH + 'model_state_dict.pt'))  # state_dict를 불러 온 후, 모델에 저장
+    
+    return model
+
 efs_path = '/mnt/efs/'
-model_path = efs_path + f'{framework}/tvm/intel/{model_name}'
+model_path = efs_path + f'{framework}/torch/intel/{model_name}'
+
 
 image_size = 224
 if "inception_v3" in model_name:
@@ -36,22 +45,29 @@ else:
     target = arch_type
 ctx = tvm.device(target, 0)
 
+
+data_array = np.random.uniform(0, 255, size=input_shape).astype("float32")
+torch_data = torch.tensor(data_array)
+
+torch_model = load_model(model_path)
+model.eval()
+traced_model = torch.jit.trace(torch_model, torch_data)
+
+shape_dict = {"input_1": data.shape}
+mod, params = relay.frontend.from_pytorch(traced_model, input_infos=[('input0', input_shape)],default_dtype=dtype)
+
+build_time = time.time()
+with tvm.transform.PassContext(opt_level=3):
+    mod = relay.transform.InferType()(mod)
+    graph, lib, params = relay.build_module.build(mod, target=target, params=params)
+print('build time:', time.time() - build_time)
 load_start = time.time()
-loaded_lib = tvm.runtime.load_module(model_path)
-module = runtime.GraphModule(loaded_lib["default"](ctx))
+module = graph_runtime.create(graph, lib, ctx)
 load_time = time.time() - load_start
+
 def make_dataset(multipart_data, workload, framework):
     if workload == "image_classification":
         mx_start = time.time()
-#         binary_content = []
-#         for part in multipart_data.parts:
-#             binary_content.append(part.content)
-#         img = BytesIO(binary_content[0])
-#         img = Image.open(img)
-#         if model_name == "inception_v3":
-#             img = img.resize((299,299), Image.ANTIALIAS)
-#         else:
-#             img = img.resize((224,224), Image.ANTIALIAS)
         image_shape = (3, 224, 224)
         if "inception_v3" in model_name:
             image_shape = (3, 299, 299)
@@ -64,11 +80,6 @@ def make_dataset(multipart_data, workload, framework):
     # case bert
     else:
         mx_start = time.time()
-#         binary_content = []
-#         for part in multipart_data.parts:
-#             binary_content.append(part.content)
-#         d = binary_content[0].split(b'\n\r')[0].decode('utf-8')
-#         inputs = np.array([d.split(" ")]).astype('float32')
         dtype = "float32"
         seq_length = 128
         inputs = np.random.randint(0, 2000, size=(batch_size, seq_length)).astype(dtype)
@@ -89,23 +100,19 @@ def make_dataset(multipart_data, workload, framework):
 
 def lambda_handler(event, context):
     handler_start = time.time()
-#     body = event['body-json']
-#     body = base64.b64decode(body)
-#     boundary = body.split(b'\r\n')[0]
-#     boundary = boundary.decode('utf-8')
-#     content_type = f"multipart/form-data; boundary={boundary}"
-#     multipart_data = decoder.MultipartDecoder(body, content_type)
     compiler = 'tvm'
     multipart_data = ""
     if workload == "image_classification":
+
         data_start = time.time()
         data = make_dataset(multipart_data, workload, framework)
         print(time.time() - data_start)
         input_name = "input0"
         if "mxnet" in framework:
             input_name = "data"
-        
-        module.set_input(input_name, data)
+        module.set_input("input_1", data)
+        module.set_input(**params)
+#         module.set_input(input_name, data)
     #case bert
     elif "bert_base" in model_name:
         data, token_types, valid_length = make_dataset(multipart_data, workload, framework)
@@ -119,4 +126,5 @@ def lambda_handler(event, context):
     running_time = time.time() - start_time
     print(f"TVM {model_name}-{batch_size} inference latency : ",(running_time)*1000,"ms")
     handler_time = time.time() - handler_start
+    print(f"TVM {model_name}-{batch_size} handler latency : ",(handler_time)*1000,"ms")
     return load_time, handler_time
