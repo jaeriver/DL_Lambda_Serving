@@ -52,7 +52,7 @@ data_array = np.random.uniform(0, 255, size=input_shape).astype("float32")
 torch_data = torch.tensor(data_array)
 
 torch_model = load_model(model_path)
-model.eval()
+torch_model.eval()
 traced_model = torch.jit.trace(torch_model, torch_data)
 
 shape_dict = {"input_1": data.shape}
