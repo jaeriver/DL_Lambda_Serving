@@ -45,6 +45,7 @@ else:
     target = arch_type
 ctx = tvm.device(target, 0)
 
+input_shape = (batch_size, 3, image_size, image_size)
 
 data_array = np.random.uniform(0, 255, size=input_shape).astype("float32")
 torch_data = torch.tensor(data_array)
