@@ -10,6 +10,7 @@ from io import BytesIO
 import base64
 from PIL import Image
 from requests_toolbelt.multipart import decoder
+import torch
 
 model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
