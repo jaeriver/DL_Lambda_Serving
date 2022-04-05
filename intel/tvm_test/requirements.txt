@@ -12,3 +12,5 @@ onnx
 protobuf
 Pillow
 requests_toolbelt
+torch
+torchvision
