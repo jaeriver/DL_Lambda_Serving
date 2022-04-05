@@ -55,7 +55,7 @@ torch_model = load_model(model_path)
 torch_model.eval()
 traced_model = torch.jit.trace(torch_model, torch_data)
 
-shape_dict = {"input_1": data.shape}
+shape_dict = {"input_1": torch_data.shape}
 mod, params = relay.frontend.from_pytorch(traced_model, input_infos=[('input0', input_shape)],default_dtype=dtype)
 
 build_time = time.time()
