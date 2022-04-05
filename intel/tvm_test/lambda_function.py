@@ -16,7 +16,7 @@ model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
 framework = os.environ['framework']
-
+dtype = "float32"
 def load_model(model_name):
 
     PATH = model_name + '/'
