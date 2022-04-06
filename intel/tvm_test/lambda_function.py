@@ -12,6 +12,8 @@ from PIL import Image
 from requests_toolbelt.multipart import decoder
 import torch
 
+print('test1')
+
 model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
@@ -50,13 +52,18 @@ input_shape = (batch_size, 3, image_size, image_size)
 
 data_array = np.random.uniform(0, 255, size=input_shape).astype("float32")
 torch_data = torch.tensor(data_array)
+print('test2')
 
 torch_model = load_model(model_path)
+print('test3')
+
 torch_model.eval()
 traced_model = torch.jit.trace(torch_model, torch_data)
 
+print('test4')
 shape_dict = {"input_1": torch_data.shape}
 mod, params = relay.frontend.from_pytorch(traced_model, input_infos=[('input0', input_shape)],default_dtype=dtype)
+print('test5')
 
 build_time = time.time()
 with tvm.transform.PassContext(opt_level=3):
@@ -66,6 +73,7 @@ print('build time:', time.time() - build_time)
 load_start = time.time()
 module = graph_runtime.create(graph, lib, ctx)
 load_time = time.time() - load_start
+print('test6')
 
 def make_dataset(multipart_data, workload, framework):
     if workload == "image_classification":
@@ -122,6 +130,8 @@ def lambda_handler(event, context):
     else:
         data, token_types, valid_length = make_dataset(multipart_data, workload, framework)
         module.set_input(data0=data, data1=valid_length)
+    
+    print('test7')
     
     start_time = time.time()
     module.run(data=data)
