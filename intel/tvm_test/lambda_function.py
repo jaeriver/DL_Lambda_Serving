@@ -26,7 +26,7 @@ def load_model(model_name):
     return model
 
 efs_path = '/mnt/efs/'
-model_path = efs_path + f'{framework}/base/{model_name}'
+model_path = f'/var/task/{model_name}'
 
 
 image_size = 224
