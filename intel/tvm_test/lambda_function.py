@@ -68,13 +68,13 @@ print('test5')
 build_time = time.time()
 with tvm.transform.PassContext(opt_level=3):
     mod = relay.transform.InferType()(mod)
-    lib = relay.build(mod, target=target, params=params)
-#     graph, lib, params = relay.build_module.build(mod, target=target, params=params)
+#     lib = relay.build(mod, target=target, params=params)
+    graph, lib, params = relay.build(mod, target=target, params=params)
 print('build time:', time.time() - build_time)
 load_start = time.time()
-# module = graph_runtime.create(graph, lib, ctx)
-dev = tvm.cpu()
-module = runtime.GraphModule(lib["default"](dev))
+module = graph_runtime.create(graph, lib, ctx)
+# dev = tvm.cpu()
+# module = runtime.GraphModule(lib["default"](dev))
 load_time = time.time() - load_start
 print('test6')
 
