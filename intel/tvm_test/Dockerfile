@@ -23,6 +23,6 @@ RUN mkdir tvm/build && cp config.cmake tvm/build && env CC=cc CXX=CC
 RUN cd tvm/build && cmake .. && make -j3
 
 RUN cp lambda_function.py ${LAMBDA_TASK_ROOT}
-
+RUN cp -r mobilenet_v2 ${LAMBDA_TASK_ROOT}
 CMD ["lambda_function.lambda_handler"]
 
