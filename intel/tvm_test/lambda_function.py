@@ -20,6 +20,7 @@ model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
 framework = os.environ['framework']
+arch_type = os.environ['arch_type'] 
 dtype = "float32"
 def load_model(model_name):
 
@@ -42,7 +43,7 @@ image_classification_shape_type = {
     "tf" : (image_size, image_size, channel)
 }
 
-arch_type = 'llvm -mcpu=core-avx2' 
+# arch_type = 'llvm -mcpu=core-avx2' 
 # ctx = tvm.cpu()
 if arch_type == 'arm':
     target = tvm.target.arm_cpu()
