@@ -14,6 +14,8 @@ import torch
 
 print('test1')
 
+print(os.system("llc --version | grep 'Host CPU'"))
+
 model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
