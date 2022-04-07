@@ -119,9 +119,9 @@ def lambda_handler(event, context):
         input_name = "input0"
         if "mxnet" in framework:
             input_name = "data"
-        module.set_input("input_1", data)
+#         module.set_input("input_1", data)
         module.set_input(**params)
-#         module.set_input(input_name, data)
+        module.set_input(input_name, data)
     #case bert
     elif "bert_base" in model_name:
         data, token_types, valid_length = make_dataset(multipart_data, workload, framework)
