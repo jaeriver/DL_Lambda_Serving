@@ -2,7 +2,7 @@ numpy
 boto3
 pytest
 python-dotenv
-torch==1.12.0
+torch==1.11.0
 torchvision
 Pillow
 requests_toolbelt
