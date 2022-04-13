@@ -73,6 +73,7 @@ def make_dataset(multipart_data, workload, framework):
         
         print(time.time() - mx_start)
         return inputs_nd, token_types_nd, valid_length_nd
+multipart_data = ""
 if workload == "image_classification":
     data = make_dataset(multipart_data, workload, framework)
 #case bert
@@ -88,7 +89,6 @@ def lambda_handler(event, context):
 #     boundary = boundary.decode('utf-8')
 #     content_type = f"multipart/form-data; boundary={boundary}"
 #     multipart_data = decoder.MultipartDecoder(body, content_type)
-    multipart_data = ""
 
 
     start_time = time.time()
