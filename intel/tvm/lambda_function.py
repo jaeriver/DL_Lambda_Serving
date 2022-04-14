@@ -15,6 +15,7 @@ model_name = os.environ['model_name']
 batch_size = int(os.environ['batch_size'])
 workload = os.environ['workload']
 framework = os.environ['framework']
+arch_type = os.environ['arch_type']
 
 efs_path = '/mnt/efs/'
 model_path = efs_path + f'{framework}/tvm/intel/{model_name}'
@@ -27,8 +28,7 @@ image_classification_shape_type = {
     "mxnet" : (channel, image_size, image_size),
     "tf" : (image_size, image_size, channel)
 }
-
-arch_type = 'llvm -mcpu=core-avx2' 
+' 
 # ctx = tvm.cpu()
 if arch_type == 'arm':
     target = tvm.target.arm_cpu()
