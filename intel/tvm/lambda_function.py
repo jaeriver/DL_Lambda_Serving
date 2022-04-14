@@ -28,7 +28,6 @@ image_classification_shape_type = {
     "mxnet" : (channel, image_size, image_size),
     "tf" : (image_size, image_size, channel)
 }
-' 
 # ctx = tvm.cpu()
 if arch_type == 'arm':
     target = tvm.target.arm_cpu()
