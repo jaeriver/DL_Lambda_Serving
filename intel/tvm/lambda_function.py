@@ -85,7 +85,17 @@ def make_dataset(multipart_data, workload, framework):
         print(time.time() - mx_start)
         return inputs_nd, token_types_nd, valid_length_nd
 
+multipart_data = ""
+if workload == "image_classification":
+    data_start = time.time()
+    data = make_dataset(multipart_data, workload, framework)
+    print(time.time() - data_start)
+    input_name = "input0"
+    if "mxnet" in framework:
+        input_name = "data"
 
+    module.set_input(input_name, data)
+    
 def lambda_handler(event, context):
     handler_start = time.time()
 #     body = event['body-json']
@@ -95,16 +105,7 @@ def lambda_handler(event, context):
 #     content_type = f"multipart/form-data; boundary={boundary}"
 #     multipart_data = decoder.MultipartDecoder(body, content_type)
     compiler = 'tvm'
-    multipart_data = ""
-    if workload == "image_classification":
-        data_start = time.time()
-        data = make_dataset(multipart_data, workload, framework)
-        print(time.time() - data_start)
-        input_name = "input0"
-        if "mxnet" in framework:
-            input_name = "data"
-        
-        module.set_input(input_name, data)
+    
     #case bert
     elif "bert_base" in model_name:
         data, token_types, valid_length = make_dataset(multipart_data, workload, framework)
