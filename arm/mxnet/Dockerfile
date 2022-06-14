@@ -13,7 +13,7 @@ RUN wget https://developer.arm.com/-/media/Files/downloads/hpc/arm-performance-l
 RUN tar -xvf arm-performance-libraries_21.1_RHEL-7_gcc-8.2.tar\?revision\=d6133508-1bcc-4fca-aeb1-4bba06d3898f 
 RUN arm-performance-libraries_21.1_RHEL-7_gcc-8.2/arm-performance-libraries_21.1_RHEL-7.sh -a
 RUN export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/arm/armpl_21.1_gcc-8.2/lib
-RUN wget https://repo.mxnet.io/dist/python/cpu/mxnet-1.9.0-py3-none-manylinux2014_aarch64.whl & python3 -c 'import mxnet'
+RUN wget https://repo.mxnet.io/dist/python/cpu/mxnet-1.9.0-py3-none-manylinux2014_aarch64.whl
 
 RUN cp lambda_function.py ${LAMBDA_TASK_ROOT}
 
