@@ -72,6 +72,7 @@ def make_dataset(multipart_data, workload, framework):
         print(time.time() - mx_start)
         return inputs, token_types, valid_length
     
+multipart_data = ""
 if workload == "image_classification":
     data = make_dataset(multipart_data, workload, framework)
 #case bert
