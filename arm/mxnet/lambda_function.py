@@ -33,7 +33,7 @@ load_start = time.time()
 print('test')
 model_json, model_params = model_path + '/model.json', model_path + '/model.params'
 if "bert_base" in model_name:
-     model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1','data2'] , model_params)
+     model = gluon.nn.SymbolBlock.imports(model_json, ['input0','input1','input2'] , model_params, ctx=ctx)
 elif "distilbert" in model_name:
     model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1'], model_params, ctx=ctx)
 elif "lstm" in model_name:
