@@ -3,6 +3,7 @@ FROM public.ecr.aws/lambda/python:3.8-arm64
 # install essential library
 RUN yum -y install wget tar python3-dev python3-setuptools libtinfo-dev zlib1g-dev build-essential git libgomp gcc-gfortran libgfortran blas lapack atlas-sse3-devel
 RUN yum -y install gcc gcc-c++
+RUN which gcc
 
 RUN mkdir -p /var/task/lib
 # git clone
