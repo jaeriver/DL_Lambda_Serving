@@ -30,6 +30,7 @@ image_classification_shape_type = {
 }
 
 load_start = time.time()
+print('test')
 model_json, model_params = model_path + '/model.json', model_path + '/model.params'
 if "bert_base" in model_name:
      model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1','data2'] , model_params, ctx=ctx)
@@ -41,6 +42,7 @@ else:
     model = gluon.nn.SymbolBlock.imports(model_json, ['data'], model_params, ctx=ctx)
 load_time = time.time() - load_start
 
+print('test2')
 def make_dataset(multipart_data, workload, framework):
     if workload == "image_classification":
         mx_start = time.time()
