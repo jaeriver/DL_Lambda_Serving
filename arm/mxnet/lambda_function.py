@@ -9,6 +9,7 @@ from io import BytesIO
 import base64
 from PIL import Image
 from requests_toolbelt.multipart import decoder
+import boto3
 
 BUCKET_NAME = os.environ.get('BUCKET_NAME')
 
