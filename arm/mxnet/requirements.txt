@@ -2,7 +2,7 @@ numpy
 boto3
 pytest
 python-dotenv
-mxnet
+mxnet==1.9.0
 Pillow
 requests_toolbelt
 gluonnlp
