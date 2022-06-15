@@ -18,10 +18,11 @@ RUN tar -xvf arm-performance-libraries_22.0.2_RHEL-7_gcc-7.5.tar\?revision\=9860
 RUN arm-performance-libraries_22.0.2_RHEL-7/arm-performance-libraries_22.0.2_RHEL-7.sh -a
 RUN which gcc
 RUN cat /etc/os-release
-RUN export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/arm/armpl_22.0.2_gcc-8.2/lib
+RUN export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/arm/armpl_22.0.2_gcc-7.5/lib
 # RUN wget https://repo.mxnet.io/dist/python/cpu/mxnet-1.9.0-py3-none-manylinux2014_aarch64.whl
 
 WORKDIR ${LAMBDA_TASK_ROOT}/DL_Lambda_Serving/arm/mxnet
 RUN cp lambda_function.py ${LAMBDA_TASK_ROOT}
 
+WORKDIR ${LAMBDA_TASK_ROOT}
 CMD ["lambda_function.lambda_handler"]
