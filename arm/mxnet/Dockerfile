@@ -16,7 +16,6 @@ WORKDIR /tmp
 RUN wget https://developer.arm.com/-/media/Files/downloads/hpc/arm-performance-libraries/22-0-2/RHEL7/arm-performance-libraries_22.0.2_RHEL-7_gcc-7.5.tar?revision=986003c5-4e15-445d-908a-c0b3d7c5a39d
 RUN tar -xvf arm-performance-libraries_22.0.2_RHEL-7_gcc-7.5.tar\?revision\=986003c5-4e15-445d-908a-c0b3d7c5a39d
 RUN arm-performance-libraries_22.0.2_RHEL-7/arm-performance-libraries_22.0.2_RHEL-7.sh -a
-RUN which gcc
 RUN cat /etc/os-release
 RUN export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/arm/armpl_22.0.2_gcc-7.5/lib
 # RUN wget https://repo.mxnet.io/dist/python/cpu/mxnet-1.9.0-py3-none-manylinux2014_aarch64.whl
