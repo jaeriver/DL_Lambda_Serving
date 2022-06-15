@@ -25,10 +25,10 @@ def load_model(model_name):
 
     os.makedirs(os.path.dirname(f'/tmp/{model_name}/'), exist_ok=True)
     s3_client.download_file(BUCKET_NAME, f'mxnet/base/{model_name}/model-symbol.json',
-                            f'/tmp/{model_name}/model.json')
+                            f'/tmp/{model_name}/model-symbol.json')
     
     s3_client.download_file(BUCKET_NAME, f'mxnet/base/{model_name}/model-0000.params',
-                            f'/tmp/{model_name}/model.params')
+                            f'/tmp/{model_name}/model-0000.params')
 
     PATH = f"/tmp/{model_name}/"
 
