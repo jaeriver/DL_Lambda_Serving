@@ -23,7 +23,6 @@ workload = os.environ['workload']
 def load_model(model_name):
     s3_client = boto3.client('s3')
 
-    import torch
     os.makedirs(os.path.dirname(f'/tmp/{model_name}/'), exist_ok=True)
     s3_client.download_file(BUCKET_NAME, f'mxnet/base/{model_name}/model-symbol.json',
                             f'/tmp/{model_name}/model.json')
