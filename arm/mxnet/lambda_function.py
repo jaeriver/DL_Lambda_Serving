@@ -82,7 +82,7 @@ def bert_download(model_name,seq_length, batch_size, dtype="float32"):
     from pathlib import Path
     Path(target_path).mkdir(parents=True, exist_ok=True)  
 
-    model.export(f'{model_name}/model')
+    model.export(f'/tmp/{model_name}/model')
     print("-"*10,f"Download {model_name} complete","-"*10)  
 
 
@@ -93,7 +93,7 @@ model_path = f'/tmp/{model_name}'
 
 bert_download(model_name, 128, 1)
 
-model_json, model_params = model_path + '/model.json', model_path + '/model.params'
+model_json, model_params = model_path + '/model-symbol.json', model_path + '/model-0000.params'
 if "bert_base" in model_name:
      model = gluon.nn.SymbolBlock.imports(model_json, ['data0','data1','data2'] , model_params, ctx=ctx)
 elif "distilbert" in model_name:
