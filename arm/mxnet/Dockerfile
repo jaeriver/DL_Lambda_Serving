@@ -10,6 +10,7 @@ RUN mkdir -p /var/task/lib
 RUN git clone https://github.com/jaeriver/DL_Lambda_Serving.git
 WORKDIR DL_Lambda_Serving/arm/mxnet
 RUN pip3 install -r requirements.txt
+RUN yum -y install environment-modules
 
 WORKDIR /tmp/
 RUN wget https://developer.arm.com/-/media/Files/downloads/hpc/arm-performance-libraries/22-0-2/RHEL7/arm-performance-libraries_22.0.2_RHEL-7_gcc-7.5.tar?revision=986003c5-4e15-445d-908a-c0b3d7c5a39d
