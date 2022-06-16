@@ -10,6 +10,7 @@ RUN mkdir -p /var/task/lib
 RUN git clone https://github.com/jaeriver/DL_Lambda_Serving.git
 WORKDIR DL_Lambda_Serving/arm/mxnet
 RUN pip3 install -r requirements.txt
+RUN pip3 install gluonnlp
 RUN yum -y install environment-modules
 
 WORKDIR /tmp/
