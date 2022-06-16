@@ -10,6 +10,7 @@ import base64
 from PIL import Image
 from requests_toolbelt.multipart import decoder
 import boto3
+import gluonnlp as nlp
 
 BUCKET_NAME = os.environ.get('BUCKET_NAME')
 
